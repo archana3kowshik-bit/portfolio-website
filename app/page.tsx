@@ -34,12 +34,12 @@ export default function Home() {
     const now = Date.now();
     if (now - lastSpawn.current < 100) return;
     lastSpawn.current = now;
-    const rect = e.currentTarget.getBoundingClientRect();
-    const id   = ++counter.current;
+    const id = ++counter.current;
+    // use clientX/Y (viewport coords) since trail renders in a fixed div
     setTrail(prev => [...prev, {
       id,
-      x:    e.clientX - rect.left,
-      y:    e.clientY - rect.top,
+      x:    e.clientX,
+      y:    e.clientY,
       rot:  Math.random() * 50 - 25,
       size: Math.random() * 40 + 52,
       src:  TRAIL_IMGS[Math.floor(Math.random() * TRAIL_IMGS.length)],
