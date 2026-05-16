@@ -5,8 +5,6 @@ import { useState, useRef, useCallback } from "react";
 import Link from "next/link";
 import Marquee from "@/components/Marquee";
 import Reveal from "@/components/Reveal";
-import { StickerFan } from "@/components/Sticker";
-import type { StickerData } from "@/components/Sticker";
 import GoldStars from "@/components/GoldStars";
 
 // ─── Cursor trail stickers ────────────────────────────────────────────────────
@@ -23,17 +21,6 @@ interface TrailItem {
   size: number;
   src: string;
 }
-
-// ─── Palette: hot pink · light pink · mint green · beige · grey ──────────────
-const STICKERS: StickerData[] = [
-  { text: "GRAPHIC DESIGN ✦", bg: "#FF2D78", color: "#fff",    shape: "starburst", size: 122, x: -340, y: 10,  rot: -20, delay: 0.40, font: "condensed", pattern: "dots"    },
-  { text: "AVAILABLE!",        bg: "#FFB3C6", color: "#FF2D78", shape: "oval",      size: 118, x: -205, y: 62,  rot: 8,   delay: 0.48, font: "condensed"                      },
-  { text: "ILLUSTRATION",      bg: "#F5F0E8", color: "#FF2D78", shape: "wavy",      size: 138, x: -65,  y: 70,  rot: -5,  delay: 0.52, font: "sans"                           },
-  { text: "HIRE ME ♡",         bg: "#A8E6C3", color: "#1A1A1A", shape: "splat",     size: 110, x: 62,   y: 62,  rot: 14,  delay: 0.56, font: "serif"                          },
-  { text: "BOLD DESIGN",       bg: "#FF2D78", color: "#fff",    shape: "tag",       size: 132, x: 190,  y: 58,  rot: -8,  delay: 0.60, font: "sans",      pattern: "stripes" },
-  { text: "B.DES ★",           bg: "#E0E0E0", color: "#FF2D78", shape: "circle",    size:  92, x: 300,  y: 28,  rot: 18,  delay: 0.64, font: "condensed"                      },
-  { text: "OPEN TO COLLAB",    bg: "#FFB3C6", color: "#FF2D78", shape: "stamp",     size: 148, x: 410,  y: 2,   rot: -13, delay: 0.68, font: "serif",     pattern: "dots"    },
-];
 
 // ─── Pinboard projects ────────────────────────────────────────────────────────
 const PROJECTS = [
@@ -236,9 +223,6 @@ export default function Home() {
         >
           Kowshik.
         </motion.h1>
-
-        {/* ── STICKER FAN ── */}
-        <StickerFan stickers={STICKERS} />
 
         {/* Tagline — centred */}
         <motion.div
