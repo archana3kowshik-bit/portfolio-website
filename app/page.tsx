@@ -23,7 +23,7 @@ const STICKERS: StickerData[] = [
 const PROJECTS = [
   { slug: "purdeys",      name: "Purdey's",        category: "D&AD Campaign",  color: "#FFB3C6", rot: -3,   mt: 0,   cover: "/projects/purdeys/hero.png"      },
   { slug: "swiss-design", name: "Swiss Design",    category: "Graphic Design", color: "#1A1A1A", rot: 2,    mt: 40,  cover: "/projects/swiss-design/hero.png" },
-  { slug: "cashfree",     name: "Cashfree",        category: "Brand Design",   color: "#A8E6C3", rot: -2,   mt: -20, cover: "/projects/cashfree/hero.jpg"     },
+  { slug: "cashfree",     name: "Cashfree",        category: "Brand Design",   color: "#A8E6C3", rot: -2,   mt: -20, cover: "/projects/cashfree/gff/hero.jpg" },
   { slug: "magazine",     name: "Magazine",        category: "Editorial",      color: "#F5F0E8", rot: 3,    mt: 60,  cover: "/projects/magazine/hero.png"     },
   { slug: "janapada-kit", name: "Janapada Kit",    category: "Cultural Design",color: "#FFB3C6", rot: -1,   mt: 0,   cover: "/projects/janapada-kit/hero.png" },
   { slug: "animation",    name: "2D/3D Animation", category: "Motion",         color: "#E0E0E0", rot: 2.5,  mt: 30,  cover: "/projects/animation/hero.png"    },
@@ -44,13 +44,13 @@ function PolaroidCard({ p, i }: { p: typeof PROJECTS[0]; i: number }) {
           <div className="w-5 h-5 rounded-full bg-[#FF2D78] border-2 border-[#1A1A1A] shadow-md -mb-2 z-20" />
 
           {/* Polaroid with real cover image */}
-          <div className="polaroid" style={{ width: 160 }}>
-            <div className="w-full h-28 overflow-hidden" style={{ backgroundColor: p.color }}>
+          <div className="polaroid" style={{ width: 220 }}>
+            <div className="w-full h-44 overflow-hidden" style={{ backgroundColor: p.color }}>
               {/* eslint-disable-next-line @next/next/no-img-element */}
               <img src={p.cover} alt={p.name} className="w-full h-full object-cover" />
             </div>
-            <p className="font-handwriting text-base text-center text-[#1A1A1A] mt-2 leading-tight">{p.name}</p>
-            <p className="font-handwriting text-xs text-center text-[#1A1A1A]/50">{p.category}</p>
+            <p className="font-handwriting text-lg text-center text-[#1A1A1A] mt-3 leading-tight">{p.name}</p>
+            <p className="font-handwriting text-sm text-center text-[#1A1A1A]/50">{p.category}</p>
           </div>
         </motion.div>
       </Link>
@@ -263,7 +263,7 @@ export default function Home() {
           </div>
         </Reveal>
 
-        <div className="flex flex-wrap gap-8 md:gap-12 justify-start items-start">
+        <div className="flex flex-wrap gap-10 md:gap-16 justify-start items-start">
           {PROJECTS.map((p, i) => (
             <div key={p.name} style={{ marginTop: p.mt }}>
               <PolaroidCard p={p} i={i} />
