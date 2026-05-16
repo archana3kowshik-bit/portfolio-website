@@ -23,7 +23,7 @@ export default function Nav() {
         {/* Logo */}
         <Link href="/"
           className="font-display text-xl text-[#111] leading-none tracking-wide">
-          AK<span className="text-[#C85535]">.</span>
+          AK<span className="text-[#1B3A6B]">.</span>
         </Link>
 
         {/* Desktop links */}
@@ -32,7 +32,7 @@ export default function Nav() {
             <li key={href}>
               <Link href={href}>
                 <span className={`font-body text-xs tracking-[0.15em] uppercase transition-colors ${
-                  pathname === href ? "text-[#C85535]" : "text-[#111] hover:text-[#C85535]"
+                  pathname === href ? "text-[#1B3A6B]" : "text-[#111] hover:text-[#1B3A6B]"
                 }`}>
                   {label}
                 </span>
@@ -43,7 +43,7 @@ export default function Nav() {
 
         {/* Available */}
         <a href="/contact"
-          className="hidden md:flex items-center gap-2 font-body text-xs tracking-[0.12em] uppercase text-[#888] hover:text-[#C85535] transition-colors">
+          className="hidden md:flex items-center gap-2 font-body text-xs tracking-[0.12em] uppercase text-[#888] hover:text-[#1B3A6B] transition-colors">
           <span className="w-1.5 h-1.5 rounded-full bg-green-400 animate-pulse" />
           Available
         </a>

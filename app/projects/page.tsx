@@ -82,13 +82,13 @@ export default function Projects() {
           initial={{ opacity: 0, y: 30 }} animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.7, ease: [0.22, 1, 0.36, 1] }}
         >
-          MY <span className="text-[#C85535]">PROJECTS.</span>
+          MY <span className="text-[#1B3A6B]">PROJECTS.</span>
         </motion.h1>
         <motion.div className="flex items-center gap-4 mt-4"
           initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 0.5 }}>
           <p className="font-body text-sm text-[#888]">Click any project to explore it</p>
           <a href="https://www.behance.net/archanakowshik" target="_blank" rel="noopener noreferrer"
-            className="font-body text-xs tracking-widest uppercase text-[#C85535] hover:underline">
+            className="font-body text-xs tracking-widest uppercase text-[#1B3A6B] hover:underline">
             Behance ↗
           </a>
         </motion.div>
@@ -102,8 +102,8 @@ export default function Projects() {
               onClick={() => setActiveTag(tag)}
               className="font-body text-xs tracking-widest uppercase px-4 py-1.5 border transition-colors"
               animate={{
-                backgroundColor: activeTag === tag ? "#C85535" : "transparent",
-                borderColor:     activeTag === tag ? "#C85535" : "#ddd",
+                backgroundColor: activeTag === tag ? "#1B3A6B" : "transparent",
+                borderColor:     activeTag === tag ? "#1B3A6B" : "#ddd",
                 color:           activeTag === tag ? "#fff"    : "#888",
               }}
               whileHover={{ scale: 1.04 }} whileTap={{ scale: 0.96 }}
@@ -142,7 +142,7 @@ export default function Projects() {
           whileHover={{ x: 6 }} transition={{ type: "spring", stiffness: 300 }}
         >
           <span className="font-body text-sm text-[#888] uppercase tracking-widest">Full archive on</span>
-          <span className="font-display text-[#111] group-hover:text-[#C85535] transition-colors leading-none"
+          <span className="font-display text-[#111] group-hover:text-[#1B3A6B] transition-colors leading-none"
             style={{ fontSize: "clamp(40px, 7vw, 96px)" }}>
             BEHANCE →
           </span>

@@ -8,19 +8,17 @@ const config: Config = {
   theme: {
     extend: {
       colors: {
-        bg:    "#FFFFFF",
+        blue:  "#1B3A6B",
         ink:   "#111111",
-        terra: "#C85535",
         muted: "#888888",
         // legacy
-        cream: "#FFFFFF",
-        pink: { hot: "#C85535", light: "#F2C4A8" },
+        cream: "#ffffff",
+        pink:  { hot: "#1B3A6B", light: "#1B3A6B" },
       },
       fontFamily: {
-        display: ["var(--font-bebas)", "Impact", "sans-serif"],
-        body:    ["var(--font-dm-sans)", "Helvetica Neue", "Arial", "sans-serif"],
-        sans:    ["var(--font-dm-sans)", "Helvetica Neue", "Arial", "sans-serif"],
-        // legacy aliases so nothing hard-crashes
+        display:     ["var(--font-bebas)", "Impact", "sans-serif"],
+        body:        ["var(--font-dm-sans)", "Helvetica Neue", "Arial", "sans-serif"],
+        sans:        ["var(--font-dm-sans)", "Helvetica Neue", "Arial", "sans-serif"],
         hero:        ["var(--font-bebas)", "Impact", "sans-serif"],
         editorial:   ["var(--font-dm-sans)", "Helvetica Neue", "Arial", "sans-serif"],
         condensed:   ["var(--font-bebas)", "Impact", "sans-serif"],
