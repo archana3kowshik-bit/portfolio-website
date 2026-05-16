@@ -8,40 +8,23 @@ const config: Config = {
   theme: {
     extend: {
       colors: {
-        linen:  "#FAFAF8",
-        ink:    "#111111",
-        terra:  "#C85535",
-        yellow: "#EDD853",
-        muted:  "#999490",
-        cream:  "#FAFAF8",
+        bg:    "#FFFFFF",
+        ink:   "#111111",
+        terra: "#C85535",
+        muted: "#888888",
+        // legacy
+        cream: "#FFFFFF",
         pink: { hot: "#C85535", light: "#F2C4A8" },
       },
       fontFamily: {
-        // Instrument Serif — section headings, labels
-        display:     ["var(--font-instrument-serif)", "Georgia", "serif"],
-        // Awesome Serif Italic — hero name only
-        hero:        ["var(--font-awesome-serif)", "Georgia", "serif"],
-        // Helvetica Neue — everything else
-        sans:        ['"Helvetica Neue"', "Helvetica", "Arial", "sans-serif"],
-        editorial:   ['"Helvetica Neue"', "Helvetica", "Arial", "sans-serif"],
-        condensed:   ['"Helvetica Neue"', "Helvetica", "Arial", "sans-serif"],
-        handwriting: ['"Helvetica Neue"', "Helvetica", "Arial", "sans-serif"],
-      },
-      letterSpacing: {
-        tighter: "-0.05em",
-        tight:   "-0.03em",
-        normal:  "-0.02em",
-        wide:    "0.005em",
-        wider:   "0.02em",
-        widest:  "0.06em",
-      },
-      animation: {
-        marquee:           "marquee 28s linear infinite",
-        "marquee-reverse": "marquee-reverse 28s linear infinite",
-      },
-      keyframes: {
-        marquee:           { "0%": { transform: "translateX(0%)" },   "100%": { transform: "translateX(-50%)" } },
-        "marquee-reverse": { "0%": { transform: "translateX(-50%)" }, "100%": { transform: "translateX(0%)" }  },
+        display: ["var(--font-bebas)", "Impact", "sans-serif"],
+        body:    ["var(--font-dm-sans)", "Helvetica Neue", "Arial", "sans-serif"],
+        sans:    ["var(--font-dm-sans)", "Helvetica Neue", "Arial", "sans-serif"],
+        // legacy aliases so nothing hard-crashes
+        hero:        ["var(--font-bebas)", "Impact", "sans-serif"],
+        editorial:   ["var(--font-dm-sans)", "Helvetica Neue", "Arial", "sans-serif"],
+        condensed:   ["var(--font-bebas)", "Impact", "sans-serif"],
+        handwriting: ["var(--font-dm-sans)", "Helvetica Neue", "Arial", "sans-serif"],
       },
     },
   },

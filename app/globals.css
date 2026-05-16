@@ -2,45 +2,22 @@
 @tailwind components;
 @tailwind utilities;
 
-:root {
-  --bg:     #FAFAF8;
-  --ink:    #111111;
-  --terra:  #C85535;
-  --yellow: #EDD853;
-  --muted:  #999490;
-  --cream:  #FAFAF8;
-  --pink:   #C85535;
-}
-
 * { cursor: none !important; }
 html { scroll-behavior: smooth; }
 
 body {
-  background-color: var(--bg);
-  color: var(--ink);
+  background: #ffffff;
+  color: #111111;
   overflow-x: hidden;
-  letter-spacing: -0.02em;
 }
 
-/* Barely-there grain — warmth without noise */
-body::before {
-  content: "";
-  position: fixed;
-  inset: 0;
-  pointer-events: none;
-  z-index: 9999;
-  opacity: 0.03;
-  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
-  background-size: 180px 180px;
-}
-
+::selection { background: #C85535; color: #fff; }
 ::-webkit-scrollbar { width: 3px; }
-::-webkit-scrollbar-track { background: var(--bg); }
-::-webkit-scrollbar-thumb { background: var(--terra); }
-::selection { background: var(--terra); color: #fff; }
+::-webkit-scrollbar-thumb { background: #C85535; }
 
 @layer components {
-  .polaroid { @apply bg-white p-2.5 pb-8 shadow-sm; }
-  .doodle-border { border: 2px solid var(--ink); box-shadow: 3px 3px 0 var(--ink); }
-  .doodle-border-pink { border: 2px solid var(--terra); box-shadow: 3px 3px 0 var(--terra); }
+  .polaroid { @apply bg-white p-2 pb-8 shadow-md; }
+  /* keep doodle-border so project detail pages don't crash */
+  .doodle-border { border: 2px solid #111; box-shadow: 3px 3px 0 #111; }
+  .doodle-border-pink { border: 2px solid #C85535; box-shadow: 3px 3px 0 #C85535; }
 }

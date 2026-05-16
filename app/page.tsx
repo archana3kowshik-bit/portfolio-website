@@ -4,7 +4,7 @@ import { motion, AnimatePresence } from "framer-motion";
 import { useState, useRef, useCallback } from "react";
 import Link from "next/link";
 
-// ─── Cursor trail ─────────────────────────────────────────────────────────────
+// ─── Sticker trail ────────────────────────────────────────────────────────────
 const TRAIL_IMGS = [
   ...Array.from({ length: 15 }, (_, i) => `/stickers/sticker_${String(i + 1).padStart(2, "0")}.png`),
   ...Array.from({ length: 26 }, (_, i) => `/stickers/sticker2_${String(i + 1).padStart(2, "0")}.png`),
@@ -13,23 +13,26 @@ interface TrailItem { id: number; x: number; y: number; rot: number; size: numbe
 
 // ─── Projects ─────────────────────────────────────────────────────────────────
 const PROJECTS = [
-  { slug: "purdeys",       name: "Purdey's",        category: "D&AD Campaign",   color: "#F2C4A8", rot: -3,   mt:  0,  cover: "/projects/purdeys/hero.png"                },
-  { slug: "swiss-design",  name: "Swiss Design",    category: "Graphic Design",  color: "#D6D4CE", rot:  2,   mt:  48, cover: "/projects/swiss-design/hero.png"            },
-  { slug: "cashfree",      name: "Cashfree",        category: "Brand Design",    color: "#A8D5B5", rot: -2,   mt: -16, cover: "/projects/cashfree/gff/hero.jpg"            },
-  { slug: "magazine",      name: "Magazine",        category: "Editorial",       color: "#EDD853", rot:  3,   mt:  64, cover: "/projects/magazine/hero.png"                },
-  { slug: "janapada-kit",  name: "Janapada Kit",    category: "Cultural Design", color: "#F2C4A8", rot: -1.5, mt:  8,  cover: "/projects/janapada-kit/hero.png"            },
-  { slug: "animation",     name: "2D/3D Animation", category: "Motion",          color: "#D6D4CE", rot:  2.5, mt: -24, cover: "/projects/animation/hero.png"               },
-  { slug: "zines",         name: "Zines",           category: "Self-Published",  color: "#A8D5B5", rot: -2.5, mt:  40, cover: "/projects/zines/hero.png"                   },
+  { slug: "purdeys",      name: "Purdey's",        category: "D&AD Campaign",   color: "#F2C4A8", cover: "/projects/purdeys/hero.png"             },
+  { slug: "swiss-design", name: "Swiss Design",    category: "Graphic Design",  color: "#D6D4CE", cover: "/projects/swiss-design/hero.png"         },
+  { slug: "cashfree",     name: "Cashfree",        category: "Brand Design",    color: "#A8D5B5", cover: "/projects/cashfree/gff/hero.jpg"         },
+  { slug: "magazine",     name: "Magazine",        category: "Editorial",       color: "#EDD853", cover: "/projects/magazine/hero.png"             },
+  { slug: "janapada-kit", name: "Janapada Kit",    category: "Cultural Design", color: "#F2C4A8", cover: "/projects/janapada-kit/hero.png"         },
+  { slug: "animation",    name: "2D/3D Animation", category: "Motion",          color: "#D6D4CE", cover: "/projects/animation/hero.png"            },
+  { slug: "zines",        name: "Zines",           category: "Self-Published",  color: "#A8D5B5", cover: "/projects/zines/hero.png"                },
 ];
 
+// stagger offsets so the cards feel alive
+const CARD_OFFSETS = [0, 56, -20, 72, 12, -36, 44];
+
 export default function Home() {
-  const [trail, setTrail]   = useState<TrailItem[]>([]);
-  const lastSpawn            = useRef(0);
-  const counter              = useRef(0);
+  const [trail, setTrail] = useState<TrailItem[]>([]);
+  const lastSpawn = useRef(0);
+  const counter   = useRef(0);
 
   const handleMove = useCallback((e: React.MouseEvent<HTMLElement>) => {
     const now = Date.now();
-    if (now - lastSpawn.current < 110) return;
+    if (now - lastSpawn.current < 100) return;
     lastSpawn.current = now;
     const rect = e.currentTarget.getBoundingClientRect();
     const id   = ++counter.current;
@@ -38,16 +41,16 @@ export default function Home() {
       x:    e.clientX - rect.left,
       y:    e.clientY - rect.top,
       rot:  Math.random() * 50 - 25,
-      size: Math.random() * 36 + 52,
+      size: Math.random() * 40 + 52,
       src:  TRAIL_IMGS[Math.floor(Math.random() * TRAIL_IMGS.length)],
     }]);
-    setTimeout(() => setTrail(prev => prev.filter(s => s.id !== id)), 1100);
+    setTimeout(() => setTrail(prev => prev.filter(s => s.id !== id)), 1000);
   }, []);
 
   return (
     <main className="overflow-x-hidden" onMouseMove={handleMove}>
 
-      {/* ── Sticker trail (whole page) ── */}
+      {/* Global sticker trail */}
       <div className="fixed inset-0 pointer-events-none" style={{ zIndex: 40 }}>
         <AnimatePresence>
           {trail.map(s => (
@@ -55,110 +58,80 @@ export default function Home() {
               className="absolute select-none"
               style={{ left: s.x - s.size / 2, top: s.y - s.size / 2, width: s.size, height: s.size, rotate: s.rot }}
               initial={{ scale: 0, opacity: 1 }}
-              animate={{ scale: 1, opacity: 1, y: -18 }}
-              exit={{ opacity: 0, y: -56, scale: 0.6 }}
+              animate={{ scale: 1, y: -16, opacity: 1 }}
+              exit={{ opacity: 0, y: -52, scale: 0.5 }}
               transition={{
-                scale:   { type: "spring", stiffness: 480, damping: 22 },
-                y:       { duration: 1.0, ease: "easeOut" },
-                opacity: { duration: 0.3, delay: 0.7 },
+                scale:   { type: "spring", stiffness: 500, damping: 24 },
+                y:       { duration: 0.9, ease: "easeOut" },
+                opacity: { duration: 0.25, delay: 0.72 },
               }}
             />
           ))}
         </AnimatePresence>
       </div>
 
-      {/* ── HERO — name fills the screen ─────────────────────────────────────── */}
-      <section className="relative min-h-screen flex flex-col justify-between px-6 md:px-12 lg:px-16 pt-28 pb-10 cursor-none overflow-hidden">
+      {/* ── TOP BAR (Spencer Gabor-style info strip) ──────────────────────────── */}
+      <div className="flex justify-between items-center px-6 md:px-12 pt-6 pb-2">
+        <span className="font-body text-xs text-[#888] tracking-widest uppercase">Bangalore, India</span>
+        <span className="font-body text-xs text-[#888] tracking-widest uppercase hidden md:block">archana3kowshik@gmail.com</span>
+      </div>
 
-        {/* Name — Awesome Serif, enormous */}
-        <div>
-          <motion.h1
-            className="font-hero italic text-[#111111] leading-[0.88]"
-            style={{ fontSize: "clamp(72px, 18vw, 260px)" }}
-            initial={{ opacity: 0, y: 40 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.9, ease: [0.22, 1, 0.36, 1] }}
-          >
-            Archana<br />
-            <span className="relative inline-block">
-              Kowshik
-              {/* yellow underline */}
-              <motion.span
-                className="absolute left-0 bottom-2 h-[0.12em] w-full block rounded-full"
-                style={{ background: "#EDD853" }}
-                initial={{ scaleX: 0, originX: 0 }}
-                animate={{ scaleX: 1 }}
-                transition={{ delay: 0.8, duration: 0.6, ease: "easeOut" }}
-              />
-            </span>
-            <span className="text-[#C85535]">.</span>
-          </motion.h1>
-        </div>
+      {/* ── HERO NAME ─────────────────────────────────────────────────────────── */}
+      <section className="px-4 md:px-8 pt-4 pb-0 cursor-none overflow-hidden">
+        <motion.h1
+          className="font-display text-[#111] leading-none tracking-tight text-center select-none"
+          style={{ fontSize: "clamp(80px, 19.5vw, 300px)" }}
+          initial={{ opacity: 0, y: 60 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.8, ease: [0.22, 1, 0.36, 1] }}
+        >
+          ARCHANA<br />
+          <span className="text-[#C85535]">KOWSHIK</span>
+        </motion.h1>
 
-        {/* Bottom row — role left, scroll right */}
-        <motion.div
-          className="flex items-end justify-between"
+        {/* Role line — exactly like Spencer Gabor */}
+        <motion.p
+          className="font-display text-[#ccc] text-center leading-none mt-2"
+          style={{ fontSize: "clamp(28px, 6vw, 88px)" }}
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
-          transition={{ delay: 0.9 }}
+          transition={{ delay: 0.5 }}
         >
-          <div>
-            <p className="font-sans text-sm text-[#999490] tracking-widest uppercase mb-1">
-              Visual Designer &amp; Illustrator
-            </p>
-            <p className="font-sans text-sm text-[#999490] tracking-widest uppercase">
-              Bangalore, India — open to freelance
-            </p>
-          </div>
-          <motion.p
-            className="font-display italic text-[#999490] text-base hidden md:block"
-            animate={{ y: [0, 6, 0] }}
-            transition={{ duration: 2.4, repeat: Infinity }}
-          >
-            scroll ↓
-          </motion.p>
-        </motion.div>
+          VISUAL DESIGNER, ILLUSTRATOR &amp; ANIMATOR
+        </motion.p>
       </section>
 
-      {/* ── WORK — straight in, no header ────────────────────────────────────── */}
-      <section className="px-6 md:px-12 lg:px-16 pb-32">
+      {/* ── WORK CARDS — overlapping staggered grid ───────────────────────────── */}
+      <section className="px-6 md:px-12 mt-16 md:mt-20">
 
-        {/* Minimal label */}
-        <motion.p
-          className="font-sans text-xs text-[#999490] tracking-[0.2em] uppercase mb-16"
-          initial={{ opacity: 0 }} whileInView={{ opacity: 1 }} viewport={{ once: true }}
-        >
-          Selected work
-        </motion.p>
-
-        {/* Polaroid scatter */}
-        <div className="flex flex-wrap gap-10 md:gap-14 items-start">
+        <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6 md:gap-8">
           {PROJECTS.map((p, i) => (
             <motion.div
               key={p.slug}
-              style={{ marginTop: p.mt }}
-              initial={{ opacity: 0, y: 24 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true, margin: "-40px" }}
-              transition={{ delay: i * 0.06, duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
+              style={{ transform: `translateY(${CARD_OFFSETS[i] ?? 0}px)` }}
+              initial={{ opacity: 0, y: 30 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: 0.4 + i * 0.07, duration: 0.55, ease: [0.22, 1, 0.36, 1] }}
             >
               <Link href={`/projects/${p.slug}`}>
                 <motion.div
-                  className="flex flex-col items-center cursor-pointer"
-                  style={{ rotate: p.rot }}
-                  whileHover={{ rotate: 0, scale: 1.06, zIndex: 50 }}
-                  transition={{ type: "spring", stiffness: 260, damping: 20 }}
+                  className="group cursor-pointer"
+                  whileHover={{ scale: 1.04, zIndex: 30 }}
+                  transition={{ type: "spring", stiffness: 300, damping: 22 }}
                 >
-                  {/* Pin */}
-                  <div className="w-3.5 h-3.5 rounded-full bg-[#C85535] -mb-1.5 z-10 shadow-sm" />
-                  {/* Polaroid */}
-                  <div className="polaroid" style={{ width: 195 }}>
-                    <div className="w-full h-44 overflow-hidden" style={{ backgroundColor: p.color }}>
-                      {/* eslint-disable-next-line @next/next/no-img-element */}
-                      <img src={p.cover} alt={p.name} className="w-full h-full object-cover" />
-                    </div>
-                    <p className="font-display italic text-[15px] text-center text-[#111] mt-3 leading-tight">{p.name}</p>
-                    <p className="font-sans text-[10px] text-center text-[#999490] mt-0.5 tracking-widest uppercase">{p.category}</p>
+                  <div
+                    className="w-full overflow-hidden"
+                    style={{ aspectRatio: "3/4", backgroundColor: p.color }}
+                  >
+                    {/* eslint-disable-next-line @next/next/no-img-element */}
+                    <img
+                      src={p.cover} alt={p.name}
+                      className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
+                    />
+                  </div>
+                  <div className="mt-2">
+                    <p className="font-display text-[#111] text-lg leading-tight tracking-wide">{p.name.toUpperCase()}</p>
+                    <p className="font-body text-[11px] text-[#888] mt-0.5 tracking-widest uppercase">{p.category}</p>
                   </div>
                 </motion.div>
               </Link>
@@ -168,80 +141,79 @@ export default function Home() {
 
         {/* See all */}
         <motion.div
-          className="mt-20"
-          initial={{ opacity: 0 }} whileInView={{ opacity: 1 }} viewport={{ once: true }}
-          transition={{ delay: 0.2 }}
+          className="mt-16 mb-8"
+          initial={{ opacity: 0 }} whileInView={{ opacity: 1 }}
+          viewport={{ once: true }} transition={{ delay: 0.1 }}
         >
           <Link href="/projects">
             <motion.span
-              className="font-display italic text-[#C85535] text-2xl inline-flex items-center gap-2"
+              className="font-display text-[#111] tracking-wide text-2xl inline-flex items-center gap-3 hover:text-[#C85535] transition-colors"
               whileHover={{ x: 6 }}
               transition={{ type: "spring", stiffness: 400 }}
             >
-              see all projects →
+              ALL PROJECTS →
             </motion.span>
           </Link>
         </motion.div>
       </section>
 
-      {/* ── ABOUT — one simple block ─────────────────────────────────────────── */}
-      <section className="px-6 md:px-12 lg:px-16 py-24 border-t border-[#111]/8">
-        <div className="max-w-2xl">
-          <motion.p
-            className="font-sans text-xs text-[#999490] tracking-[0.2em] uppercase mb-8"
-            initial={{ opacity: 0 }} whileInView={{ opacity: 1 }} viewport={{ once: true }}
-          >
-            About
-          </motion.p>
-          <motion.p
-            className="font-display italic text-[#111] leading-snug mb-6"
-            style={{ fontSize: "clamp(22px, 3vw, 36px)" }}
-            initial={{ opacity: 0, y: 16 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }}
-            transition={{ duration: 0.7 }}
-          >
-            I&apos;m Archana — a visual designer and illustrator based in Bangalore.
-            I love making things that feel bold, considered, and a little joyful.
-          </motion.p>
-          <motion.p
-            className="font-sans text-[#999490] text-sm leading-relaxed mb-8"
-            initial={{ opacity: 0 }} whileInView={{ opacity: 1 }} viewport={{ once: true }}
-            transition={{ delay: 0.2 }}
-          >
-            B.Design graduate from PES University · 2025 · Open to freelance &amp; full-time
-          </motion.p>
-          <motion.div whileHover={{ x: 4 }} transition={{ type: "spring", stiffness: 400 }}>
-            <Link href="/about"
-              className="font-sans text-xs tracking-widest uppercase text-[#C85535] inline-flex items-center gap-2">
-              More about me →
-            </Link>
-          </motion.div>
-        </div>
+      {/* ── CLIENTS / INFO BAR — Spencer Gabor has this ───────────────────────── */}
+      <div className="border-t border-b border-[#eee] py-4 px-6 md:px-12 flex flex-wrap gap-x-8 gap-y-1 mt-8">
+        <span className="font-body text-[11px] text-[#888] tracking-widest uppercase">Clients include</span>
+        {["Cashfree", "PES University", "D&AD", "Self-published"].map(c => (
+          <span key={c} className="font-body text-[11px] text-[#888] tracking-widest uppercase">{c}</span>
+        ))}
+      </div>
+
+      {/* ── ABOUT ─────────────────────────────────────────────────────────────── */}
+      <section className="px-6 md:px-12 py-24 max-w-3xl">
+        <motion.p
+          className="font-body text-[#111] text-lg md:text-xl leading-relaxed"
+          initial={{ opacity: 0, y: 16 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.7 }}
+        >
+          I&apos;m a visual designer and illustrator based in Bangalore, India.
+          I make things that are bold, considered, and full of joy —
+          from brand campaigns to editorial illustration.
+        </motion.p>
+        <motion.p
+          className="font-body text-[#888] text-sm mt-4 tracking-wide"
+          initial={{ opacity: 0 }} whileInView={{ opacity: 1 }}
+          viewport={{ once: true }} transition={{ delay: 0.2 }}
+        >
+          B.Design · PES University · 2025 · Open to freelance &amp; full-time
+        </motion.p>
+        <motion.div className="mt-6" whileHover={{ x: 4 }}>
+          <Link href="/about"
+            className="font-body text-xs tracking-widest uppercase text-[#C85535]">
+            Read more →
+          </Link>
+        </motion.div>
       </section>
 
-      {/* ── SAY HELLO ────────────────────────────────────────────────────────── */}
-      <section className="px-6 md:px-12 lg:px-16 py-24 border-t border-[#111]/8">
-        <motion.div
-          initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }}
+      {/* ── SAY HELLO ─────────────────────────────────────────────────────────── */}
+      <section className="px-6 md:px-12 pb-24 border-t border-[#eee] pt-20">
+        <motion.h2
+          className="font-display text-[#111] leading-none"
+          style={{ fontSize: "clamp(60px, 14vw, 200px)" }}
+          initial={{ opacity: 0 }} whileInView={{ opacity: 1 }}
           viewport={{ once: true }} transition={{ duration: 0.7 }}
         >
-          <h2
-            className="font-hero italic text-[#111] leading-none mb-8"
-            style={{ fontSize: "clamp(56px, 12vw, 160px)" }}
-          >
-            Say hello<span className="text-[#C85535]">.</span>
-          </h2>
-          <div className="flex flex-col sm:flex-row sm:items-center gap-4">
-            <Link href="/contact">
-              <motion.span
-                className="inline-flex items-center gap-2 bg-[#111] text-[#FAFAF8] font-sans text-xs tracking-[0.15em] uppercase px-8 py-4"
-                whileHover={{ scale: 1.03 }}
-              >
-                Get in touch ♡
-              </motion.span>
-            </Link>
-            <span className="font-sans text-[#999490] text-sm">archana3kowshik@gmail.com</span>
-          </div>
-        </motion.div>
+          SAY HELLO<span className="text-[#C85535]">.</span>
+        </motion.h2>
+        <div className="flex flex-col sm:flex-row sm:items-center gap-4 mt-8">
+          <Link href="/contact">
+            <motion.span
+              className="inline-flex items-center gap-2 bg-[#111] text-white font-body text-xs tracking-[0.15em] uppercase px-8 py-4"
+              whileHover={{ scale: 1.03 }}
+            >
+              Get in touch
+            </motion.span>
+          </Link>
+          <span className="font-body text-[#888] text-sm">archana3kowshik@gmail.com</span>
+        </div>
       </section>
 
     </main>
