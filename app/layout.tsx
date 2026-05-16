@@ -1,9 +1,10 @@
 import type { Metadata } from "next";
-import { Playfair_Display, DM_Sans } from "next/font/google";
+import { Playfair_Display, DM_Sans, Caveat } from "next/font/google";
 import "./globals.css";
 import Cursor from "@/components/Cursor";
 import Nav from "@/components/Nav";
 
+// Playfair Display — hero sentence + name
 const playfair = Playfair_Display({
   subsets: ["latin"],
   weight: ["400", "700", "900"],
@@ -11,6 +12,14 @@ const playfair = Playfair_Display({
   variable: "--font-playfair",
 });
 
+// Caveat — the "special word" inside the hero sentence (Sierra Hopkins trick)
+const caveat = Caveat({
+  subsets: ["latin"],
+  weight: ["400", "700"],
+  variable: "--font-caveat",
+});
+
+// DM Sans — body, labels, UI
 const dmSans = DM_Sans({
   subsets: ["latin"],
   variable: "--font-dm-sans",
@@ -25,7 +34,7 @@ export const metadata: Metadata = {
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
     <html lang="en">
-      <body className={`${playfair.variable} ${dmSans.variable} font-body`}>
+      <body className={`${playfair.variable} ${caveat.variable} ${dmSans.variable} font-body`}>
         <Cursor />
         <Nav />
         {children}
