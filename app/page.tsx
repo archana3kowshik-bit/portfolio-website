@@ -105,7 +105,7 @@ function ReceiptCard() {
 
 // ─── Neon post-its ────────────────────────────────────────────────────────────
 const POSTITS = [
-  { text: "open to freelance!",     bg: "#F5F0E8", color: "#FF2D78", rot: -4  },
+  { text: "open to freelance!",     bg: "#F5F250", color: "#1A1A1A", rot: -4  },
   { text: "based in bangalore 🇮🇳",  bg: "#FF2D78", color: "#fff",    rot: 2   },
   { text: "b.design grad",          bg: "#FFB3C6", color: "#FF2D78", rot: -2  },
   { text: "7 projects & counting",  bg: "#A8E6C3", color: "#1A1A1A", rot: 3   },
@@ -164,14 +164,6 @@ export default function Home() {
           ))}
         </AnimatePresence>
 
-        {/* Subtle bg glow */}
-        <div className="absolute inset-0 pointer-events-none">
-          <div className="absolute top-1/3 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[500px] rounded-full opacity-20"
-            style={{ background: "radial-gradient(ellipse, #FF2D78, transparent 65%)" }} />
-          <div className="absolute bottom-16 left-1/4 w-72 h-72 rounded-full opacity-10"
-            style={{ background: "radial-gradient(circle, #FFB3C6, transparent 70%)" }} />
-        </div>
-
         {/* Gold star doodles — hero */}
         <GoldStars stars={[
           { ch: "★", size: 28, left: "6%",  top: "12%", rot: 15,  op: 0.55, delay: 0   },
@@ -207,8 +199,8 @@ export default function Home() {
           </motion.h1>
           {/* yellow highlighter */}
           <motion.div
-            className="absolute bottom-3 left-0 h-6 w-full opacity-50 -z-10 rounded"
-            style={{ background: "#FFB3C6", rotate: -1 }}
+            className="absolute bottom-3 left-0 h-6 w-full opacity-60 -z-10 rounded"
+            style={{ background: "#F5F250", rotate: -1 }}
             initial={{ scaleX: 0, originX: 0 }} animate={{ scaleX: 1 }}
             transition={{ delay: 0.7, duration: 0.5 }}
           />
@@ -251,7 +243,7 @@ export default function Home() {
           </motion.div>
           <motion.div whileHover={{ scale: 1.06, rotate: 1 }}>
             <Link href="/contact"
-              className="doodle-border-pink inline-flex items-center gap-2 text-[#FF2D78] font-handwriting text-xl px-7 py-3 bg-[#F5F0E8]">
+              className="doodle-border-pink inline-flex items-center gap-2 text-[#FF2D78] font-handwriting text-xl px-7 py-3 bg-white">
               say hello ♡
             </Link>
           </motion.div>
@@ -269,7 +261,7 @@ export default function Home() {
       </section>
 
       {/* ── HOT PINK MARQUEE ── */}
-      <div className="py-4 border-y-2 border-[#1A1A1A] overflow-hidden bg-[#FF2D78]">
+      <div className="py-4 border-y border-[#1A1A1A]/15 overflow-hidden bg-[#FF2D78]">
         <Marquee
           items={["Graphic Design", "Illustration", "Visual Design", "Animation", "Branding", "Editorial"]}
           className="[&_span]:text-white"
@@ -278,8 +270,6 @@ export default function Home() {
 
       {/* ── "HERE'S SOME OF MY WORK" PINBOARD ── */}
       <section className="px-6 md:px-10 py-20 relative">
-        <div className="absolute inset-0 opacity-[0.04] pointer-events-none"
-          style={{ backgroundImage: "radial-gradient(circle, #1A1A1A 1px, transparent 1px)", backgroundSize: "28px 28px" }} />
 
         {/* Gold star doodles — pinboard */}
         <GoldStars stars={[
@@ -329,7 +319,7 @@ export default function Home() {
       </section>
 
       {/* ── DARK MARQUEE ── */}
-      <div className="py-4 border-y-2 border-[#1A1A1A] overflow-hidden bg-[#1A1A1A]">
+      <div className="py-4 overflow-hidden bg-[#1A1A1A]">
         <Marquee reverse
           items={["Available for freelance", "Open to collab", "Let's make something bold", "PES University Bangalore"]}
           className="[&_span]:text-[#F5F0E8]"
@@ -338,9 +328,6 @@ export default function Home() {
 
       {/* ── ABOUT TEASER ── */}
       <section className="bg-[#1A1A1A] px-6 md:px-10 py-24 relative overflow-hidden">
-        <div className="absolute inset-0 opacity-[0.06] pointer-events-none"
-          style={{ backgroundImage: "linear-gradient(#fff 1px, transparent 1px), linear-gradient(90deg, #fff 1px, transparent 1px)", backgroundSize: "40px 40px" }} />
-
         <div className="relative z-10 max-w-5xl mx-auto">
           <Reveal>
             <motion.h2

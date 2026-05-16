@@ -133,7 +133,7 @@ export default function Nav() {
       <AnimatePresence>
         {menuOpen && (
           <motion.div
-            className="md:hidden overflow-hidden bg-[#F5F0E8] border-t border-[#1A1A1A]/10"
+            className="md:hidden overflow-hidden bg-white border-t border-[#1A1A1A]/10"
             initial={{ height: 0 }}
             animate={{ height: "auto" }}
             exit={{ height: 0 }}
