@@ -21,7 +21,7 @@ const PROJ_STICKERS: StickerData[] = [
 const PROJECTS = [
   { slug: "purdeys",      name: "Purdey's",        category: "D&AD Campaign",  year: "2024", color: "#FFB3C6", accent: "#FF2D78", rot: -3,   tags: ["Campaign", "Branding", "Advertising"],    windowTitle: "purdeys_campaign.psd",    cover: "/projects/purdeys/hero.png"       },
   { slug: "swiss-design", name: "Swiss Design",    category: "Graphic Design", year: "2023", color: "#1A1A1A", accent: "#F5F0E8", rot: 1.5,  tags: ["Typography", "Grid", "Poster"],           windowTitle: "swiss_grid_final_v3.ai",   cover: "/projects/swiss-design/hero.png"  },
-  { slug: "cashfree",     name: "Cashfree",        category: "Brand Design",   year: "2024", color: "#A8E6C3", accent: "#FF2D78", rot: -2,   tags: ["Fintech", "UI", "Branding"],              windowTitle: "cashfree_rebrand.fig",     cover: "/projects/cashfree/hero.jpg"      },
+  { slug: "cashfree",     name: "Cashfree",        category: "Brand Design",   year: "2024", color: "#A8E6C3", accent: "#FF2D78", rot: -2,   tags: ["Fintech", "UI", "Branding"],              windowTitle: "cashfree_rebrand.fig",     cover: "/projects/cashfree/gff/hero.jpg"  },
   { slug: "magazine",     name: "Magazine",        category: "Editorial",      year: "2023", color: "#F5F0E8", accent: "#FF2D78", rot: 2,    tags: ["Editorial", "Layout", "Print"],           windowTitle: "blast_magazine.indd",      cover: "/projects/magazine/hero.png"      },
   { slug: "janapada-kit", name: "Janapada Kit",    category: "Cultural Design",year: "2024", color: "#FFB3C6", accent: "#FF2D78", rot: -1.5, tags: ["Illustration", "Identity", "Culture"],    windowTitle: "lalitha_janapada.ai",      cover: "/projects/janapada-kit/hero.png"  },
   { slug: "animation",    name: "2D/3D Animation", category: "Motion Design",  year: "2024", color: "#E0E0E0", accent: "#1A1A1A", rot: 2.5,  tags: ["Animation", "3D", "Motion"],             windowTitle: "motion_reel_2024.aep",     cover: "/projects/animation/hero.png"     },
@@ -39,11 +39,11 @@ function WindowCard({ project, index }: { project: typeof PROJECTS[0]; index: nu
         <motion.div
           className="relative"
           style={{ rotate: project.rot }}
-          whileHover={{ rotate: 0, zIndex: 40, scale: 1.04 }}
+          whileHover={{ rotate: 0, zIndex: 40, scale: 1.03 }}
           transition={{ type: "spring", stiffness: 240, damping: 22 }}
         >
           {/* OS window chrome */}
-          <div className="border-2 border-[#1A1A1A] shadow-[4px_4px_0_#1A1A1A] bg-[#F5F0E8] overflow-hidden w-64">
+          <div className="border-2 border-[#1A1A1A] shadow-[4px_4px_0_#1A1A1A] bg-[#F5F0E8] overflow-hidden w-full">
 
             {/* Title bar */}
             <div className="bg-[#1A1A1A] px-3 py-2 flex items-center gap-2">
@@ -63,7 +63,7 @@ function WindowCard({ project, index }: { project: typeof PROJECTS[0]; index: nu
             </div>
 
             {/* Preview area — cover image */}
-            <div className="w-full h-40 border-b-2 border-[#1A1A1A] overflow-hidden"
+            <div className="w-full h-52 border-b-2 border-[#1A1A1A] overflow-hidden"
               style={{ backgroundColor: project.color }}>
               {/* eslint-disable-next-line @next/next/no-img-element */}
               <img
@@ -74,23 +74,23 @@ function WindowCard({ project, index }: { project: typeof PROJECTS[0]; index: nu
             </div>
 
             {/* Info row */}
-            <div className="p-3">
-              <p className="font-condensed text-xl text-[#1A1A1A] leading-none tracking-wide">{project.name.toUpperCase()}</p>
-              <div className="flex justify-between items-center mt-1">
+            <div className="p-4">
+              <p className="font-condensed text-2xl text-[#1A1A1A] leading-none tracking-wide">{project.name.toUpperCase()}</p>
+              <div className="flex justify-between items-center mt-1.5">
                 <span className="font-editorial italic text-xs text-[#1A1A1A]/50">{project.category}</span>
                 <span className="font-editorial text-xs text-[#1A1A1A]/40">{project.year}</span>
               </div>
             </div>
 
             {/* Status bar */}
-            <div className="bg-[#E8E4DC] border-t-2 border-[#1A1A1A] px-3 py-1 flex justify-between">
+            <div className="bg-[#E8E4DC] border-t-2 border-[#1A1A1A] px-3 py-1.5 flex justify-between">
               <span className="font-editorial text-[10px] text-[#1A1A1A]/50 italic">click to open</span>
               <span className="font-editorial text-[10px]" style={{ color: project.accent }}>●</span>
             </div>
           </div>
 
           {/* Handwritten label below */}
-          <p className="font-handwriting text-base text-center mt-2 text-[#1A1A1A]/50"
+          <p className="font-handwriting text-sm text-center mt-2 text-[#1A1A1A]/50"
             style={{ rotate: `${-project.rot}deg` }}>
             {project.tags.join(" · ")}
           </p>
@@ -183,7 +183,7 @@ export default function Projects() {
         </div>
       </section>
 
-      {/* OS Window grid — floating folder aesthetic */}
+      {/* OS Window grid — responsive grid layout */}
       <section className="px-6 md:px-10">
         <AnimatePresence mode="wait">
           <motion.div
@@ -192,11 +192,10 @@ export default function Projects() {
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
             transition={{ duration: 0.25 }}
-            className="flex flex-wrap gap-10 md:gap-14 items-start"
+            className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8 md:gap-10"
           >
             {filtered.map((project, i) => (
-              <div key={project.name} className="flex-shrink-0"
-                style={{ marginTop: [0, 50, -30, 70, 10, -20, 60][i % 7] }}>
+              <div key={project.name}>
                 <WindowCard project={project} index={i} />
               </div>
             ))}

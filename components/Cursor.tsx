@@ -13,6 +13,7 @@ export default function Cursor() {
   const [clicked,  setClicked]  = useState(false);
   const [hidden,   setHidden]   = useState(false);
   const [magnetic, setMagnetic] = useState(false);
+  const [isTouch,  setIsTouch]  = useState(true); // default true to avoid flash on mobile
 
   // Raw position (set directly on mousemove)
   const rawX = useMotionValue(-200);
@@ -27,6 +28,9 @@ export default function Cursor() {
   const ringY = useSpring(rawY, { stiffness: 130, damping: 20, mass: 0.6 });
 
   useEffect(() => {
+    // Hide cursor on touch/mobile devices
+    setIsTouch(window.matchMedia("(pointer: coarse)").matches);
+
     const onMove = (e: MouseEvent) => {
       let x = e.clientX;
       let y = e.clientY;
@@ -88,6 +92,8 @@ export default function Cursor() {
       observer.disconnect();
     };
   }, [rawX, rawY]);
+
+  if (isTouch) return null;
 
   // ── Sizes ──────────────────────────────────────────────────────────────────
   const dotSize  = clicked ? 8  : hovered ? 0  : 14;
