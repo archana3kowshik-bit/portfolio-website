@@ -10,9 +10,10 @@ import type { StickerData } from "@/components/Sticker";
 import GoldStars from "@/components/GoldStars";
 
 // ─── Cursor trail stickers ────────────────────────────────────────────────────
-const TRAIL_IMGS = Array.from({ length: 15 }, (_, i) =>
-  `/stickers/sticker_${String(i + 1).padStart(2, "0")}.png`
-);
+const TRAIL_IMGS = [
+  ...Array.from({ length: 15 }, (_, i) => `/stickers/sticker_${String(i + 1).padStart(2, "0")}.png`),
+  ...Array.from({ length: 26 }, (_, i) => `/stickers/sticker2_${String(i + 1).padStart(2, "0")}.png`),
+];
 
 interface TrailItem {
   id: number;
