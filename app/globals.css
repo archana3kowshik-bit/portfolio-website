@@ -2,16 +2,16 @@
 @tailwind components;
 @tailwind utilities;
 
-* { cursor: none !important; }
-html { scroll-behavior: smooth; }
-
 body {
-  background: #ffffff;
-  color: #111111;
-  overflow-x: hidden;
+  background: #F5F2EC;
+  color: #0A0A0A;
   -webkit-font-smoothing: antialiased;
 }
 
-::selection { background: #1B3A6B; color: #fff; }
-::-webkit-scrollbar { width: 2px; }
-::-webkit-scrollbar-thumb { background: #1B3A6B; }
+::selection {
+  background: #1241FF;
+  color: #fff;
+}
+
+/* Thin rule utility */
+.rule { border-color: #C8C4BB; }

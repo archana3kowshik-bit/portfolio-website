@@ -1,25 +1,27 @@
 import type { Metadata } from "next";
-import { Playfair_Display, DM_Sans, Caveat } from "next/font/google";
+import { Bebas_Neue, Space_Mono, Caveat, DM_Sans } from "next/font/google";
 import "./globals.css";
 import Cursor from "@/components/Cursor";
 import Nav from "@/components/Nav";
 
-// Playfair Display — hero sentence + name
-const playfair = Playfair_Display({
+const bebas = Bebas_Neue({
+  weight: "400",
   subsets: ["latin"],
-  weight: ["400", "700", "900"],
-  style: ["normal", "italic"],
-  variable: "--font-playfair",
+  variable: "--font-bebas",
 });
 
-// Caveat — the "special word" inside the hero sentence (Sierra Hopkins trick)
+const mono = Space_Mono({
+  weight: ["400", "700"],
+  subsets: ["latin"],
+  variable: "--font-mono",
+});
+
 const caveat = Caveat({
   subsets: ["latin"],
   weight: ["400", "700"],
   variable: "--font-caveat",
 });
 
-// DM Sans — body, labels, UI
 const dmSans = DM_Sans({
   subsets: ["latin"],
   variable: "--font-dm-sans",
@@ -34,7 +36,7 @@ export const metadata: Metadata = {
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
     <html lang="en">
-      <body className={`${playfair.variable} ${caveat.variable} ${dmSans.variable} font-body`}>
+      <body className={`${bebas.variable} ${mono.variable} ${caveat.variable} ${dmSans.variable} font-body bg-cream`}>
         <Cursor />
         <Nav />
         {children}
