@@ -3,118 +3,44 @@
 @tailwind utilities;
 
 :root {
-  --cream: #FFFFFF;
-  --pink: #FF2D78;
-  --ink: #1A1A1A;
-  --yellow: #F5F250;
-  --red: #C8471E;
+  --bg:     #FAFAF8;
+  --ink:    #111111;
+  --terra:  #C85535;
+  --yellow: #EDD853;
+  --muted:  #999490;
+  --cream:  #FAFAF8;
+  --pink:   #C85535;
 }
 
 * { cursor: none !important; }
-
 html { scroll-behavior: smooth; }
 
 body {
-  background-color: var(--cream);
+  background-color: var(--bg);
   color: var(--ink);
   overflow-x: hidden;
-  letter-spacing: -0.025em;
+  letter-spacing: -0.02em;
 }
 
-h1, h2, h3, h4 {
-  letter-spacing: -0.04em;
-}
-
-/* Heavy grain — very visible */
+/* Barely-there grain — warmth without noise */
 body::before {
   content: "";
   position: fixed;
   inset: 0;
   pointer-events: none;
   z-index: 9999;
-  opacity: 0.07;
-  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)'/%3E%3C/svg%3E");
-  background-size: 120px 120px;
+  opacity: 0.03;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  background-size: 180px 180px;
 }
 
-/* Custom scrollbar */
-::-webkit-scrollbar { width: 6px; }
-::-webkit-scrollbar-track { background: var(--cream); }
-::-webkit-scrollbar-thumb { background: var(--pink); border-radius: 3px; }
-
-/* Selection */
-::selection { background: var(--pink); color: #fff; }
+::-webkit-scrollbar { width: 3px; }
+::-webkit-scrollbar-track { background: var(--bg); }
+::-webkit-scrollbar-thumb { background: var(--terra); }
+::selection { background: var(--terra); color: #fff; }
 
 @layer components {
-
-  /* Washi tape strip */
-  .tape {
-    @apply absolute pointer-events-none;
-    height: 22px;
-    opacity: 0.75;
-    border-radius: 2px;
-  }
-  .tape-pink  { background: #FF2D78; }
-  .tape-yellow{ background: #F5F250; }
-  .tape-red   { background: #C8471E; }
-  .tape-blue  { background: #7DD3F5; }
-  .tape-green { background: #A8E6C3; }
-
-  /* Polaroid card */
-  .polaroid {
-    @apply bg-white p-3 pb-10 shadow-lg;
-  }
-
-  /* Sticky note */
-  .sticky {
-    @apply p-5 shadow-md;
-  }
-
-  /* Highlighter underline */
-  .highlight {
-    background: linear-gradient(transparent 55%, #F5F250 55%);
-    display: inline;
-  }
-  .highlight-pink {
-    background: linear-gradient(transparent 55%, #FF2D7844 55%);
-    display: inline;
-  }
-
-  /* Torn edge — bottom of a section */
-  .torn-bottom {
-    position: relative;
-  }
-  .torn-bottom::after {
-    content: "";
-    position: absolute;
-    bottom: -12px;
-    left: 0;
-    right: 0;
-    height: 12px;
-    background: var(--cream);
-    clip-path: polygon(
-      0% 0%, 2% 100%, 4% 20%, 6% 90%, 8% 10%, 10% 80%,
-      12% 5%,14% 95%, 16% 15%, 18% 85%, 20% 0%,
-      22% 100%, 24% 20%, 26% 90%, 28% 5%, 30% 80%,
-      32% 10%, 34% 95%, 36% 20%, 38% 85%, 40% 0%,
-      42% 100%, 44% 15%, 46% 90%, 48% 10%, 50% 80%,
-      52% 0%, 54% 95%, 56% 20%, 58% 85%, 60% 5%,
-      62% 90%, 64% 10%, 66% 80%, 68% 0%, 70% 95%,
-      72% 15%, 74% 90%, 76% 5%, 78% 85%, 80% 0%,
-      82% 100%, 84% 20%, 86% 90%, 88% 10%, 90% 80%,
-      92% 0%, 94% 95%, 96% 20%, 98% 90%, 100% 0%
-    );
-  }
-
-  /* Scrapbook doodle border */
-  .doodle-border {
-    border: 2.5px solid var(--ink);
-    border-radius: 2px;
-    box-shadow: 3px 3px 0 var(--ink);
-  }
-  .doodle-border-pink {
-    border: 2.5px solid var(--pink);
-    border-radius: 2px;
-    box-shadow: 3px 3px 0 var(--pink);
-  }
+  .polaroid { @apply bg-white p-2.5 pb-8 shadow-sm; }
+  .doodle-border { border: 2px solid var(--ink); box-shadow: 3px 3px 0 var(--ink); }
+  .doodle-border-pink { border: 2px solid var(--terra); box-shadow: 3px 3px 0 var(--terra); }
 }

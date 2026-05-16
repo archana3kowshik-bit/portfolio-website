@@ -3,415 +3,247 @@
 import { motion, AnimatePresence } from "framer-motion";
 import { useState, useRef, useCallback } from "react";
 import Link from "next/link";
-import Marquee from "@/components/Marquee";
-import Reveal from "@/components/Reveal";
-import GoldStars from "@/components/GoldStars";
 
-// ─── Cursor trail stickers ────────────────────────────────────────────────────
+// ─── Cursor trail ─────────────────────────────────────────────────────────────
 const TRAIL_IMGS = [
   ...Array.from({ length: 15 }, (_, i) => `/stickers/sticker_${String(i + 1).padStart(2, "0")}.png`),
   ...Array.from({ length: 26 }, (_, i) => `/stickers/sticker2_${String(i + 1).padStart(2, "0")}.png`),
 ];
+interface TrailItem { id: number; x: number; y: number; rot: number; size: number; src: string; }
 
-interface TrailItem {
-  id: number;
-  x: number;
-  y: number;
-  rot: number;
-  size: number;
-  src: string;
-}
-
-// ─── Pinboard projects ────────────────────────────────────────────────────────
+// ─── Projects ─────────────────────────────────────────────────────────────────
 const PROJECTS = [
-  { slug: "purdeys",      name: "Purdey's",        category: "D&AD Campaign",  color: "#FFB3C6", rot: -3,   mt: 0,   cover: "/projects/purdeys/hero.png"      },
-  { slug: "swiss-design", name: "Swiss Design",    category: "Graphic Design", color: "#1A1A1A", rot: 2,    mt: 40,  cover: "/projects/swiss-design/hero.png" },
-  { slug: "cashfree",     name: "Cashfree",        category: "Brand Design",   color: "#A8E6C3", rot: -2,   mt: -20, cover: "/projects/cashfree/gff/hero.jpg" },
-  { slug: "magazine",     name: "Magazine",        category: "Editorial",      color: "#F5F0E8", rot: 3,    mt: 60,  cover: "/projects/magazine/hero.png"     },
-  { slug: "janapada-kit", name: "Janapada Kit",    category: "Cultural Design",color: "#FFB3C6", rot: -1,   mt: 0,   cover: "/projects/janapada-kit/hero.png" },
-  { slug: "animation",    name: "2D/3D Animation", category: "Motion",         color: "#E0E0E0", rot: 2.5,  mt: 30,  cover: "/projects/animation/hero.png"    },
-  { slug: "zines",        name: "Zines",           category: "Self-Published", color: "#A8E6C3", rot: -2.5, mt: -10, cover: "/projects/zines/hero.png"        },
-];
-
-function PolaroidCard({ p, i }: { p: typeof PROJECTS[0]; i: number }) {
-  return (
-    <Reveal delay={i * 0.07}>
-      <Link href={`/projects/${p.slug}`}>
-        <motion.div
-          className="flex flex-col items-center flex-shrink-0 cursor-pointer"
-          style={{ rotate: p.rot }}
-          whileHover={{ rotate: 0, scale: 1.08, zIndex: 50 }}
-          transition={{ type: "spring", stiffness: 260, damping: 20 }}
-        >
-          {/* Push-pin */}
-          <div className="w-5 h-5 rounded-full bg-[#FF2D78] border-2 border-[#1A1A1A] shadow-md -mb-2 z-20" />
-
-          {/* Polaroid with real cover image */}
-          <div className="polaroid" style={{ width: 220 }}>
-            <div className="w-full h-44 overflow-hidden" style={{ backgroundColor: p.color }}>
-              {/* eslint-disable-next-line @next/next/no-img-element */}
-              <img src={p.cover} alt={p.name} className="w-full h-full object-cover" />
-            </div>
-            <p className="font-handwriting text-lg text-center text-[#1A1A1A] mt-3 leading-tight">{p.name}</p>
-            <p className="font-handwriting text-sm text-center text-[#1A1A1A]/50">{p.category}</p>
-          </div>
-        </motion.div>
-      </Link>
-    </Reveal>
-  );
-}
-
-
-// ─── Receipt card ─────────────────────────────────────────────────────────────
-function ReceiptCard() {
-  return (
-    <motion.div
-      className="bg-white font-mono text-[#1A1A1A] p-6 shadow-lg max-w-xs w-full"
-      style={{
-        rotate: 2,
-        borderTop: "4px dashed #1A1A1A",
-        borderBottom: "4px dashed #1A1A1A",
-      }}
-      whileHover={{ rotate: 0, scale: 1.03 }}
-      transition={{ type: "spring", stiffness: 200 }}
-    >
-      <p className="text-center text-xs tracking-[0.3em] uppercase mb-1 border-b border-dashed border-black/30 pb-2">
-        ★ archana kowshik ★
-      </p>
-      <p className="text-center text-[10px] text-black/40 mb-4">Visual Designer & Illustrator</p>
-      <div className="text-xs space-y-1 border-b border-dashed border-black/30 pb-3 mb-3">
-        {[
-          ["Graphic Design", "✓✓✓✓✓"],
-          ["Illustration",   "✓✓✓✓✓"],
-          ["Visual Design",  "✓✓✓✓"],
-          ["Animation",      "✓✓✓"],
-          ["Branding",       "✓✓✓✓"],
-        ].map(([k, v]) => (
-          <div key={k} className="flex justify-between gap-4">
-            <span>{k}</span><span className="text-[#FF2D78]">{v}</span>
-          </div>
-        ))}
-      </div>
-      <div className="text-xs space-y-1 border-b border-dashed border-black/30 pb-3 mb-3">
-        <div className="flex justify-between"><span>University</span><span>PES, BLR</span></div>
-        <div className="flex justify-between"><span>Degree</span><span>B.Design</span></div>
-        <div className="flex justify-between"><span>Year</span><span>2021-2025</span></div>
-      </div>
-      <p className="text-center text-[10px] tracking-widest text-black/40">THANK YOU FOR VISITING ♡</p>
-      <p className="text-center text-[10px] tracking-widest text-black/40">archana3kowshik@gmail.com</p>
-    </motion.div>
-  );
-}
-
-// ─── Neon post-its ────────────────────────────────────────────────────────────
-const POSTITS = [
-  { text: "open to freelance!",     bg: "#F5F250", color: "#1A1A1A", rot: -4  },
-  { text: "based in bangalore 🇮🇳",  bg: "#FF2D78", color: "#fff",    rot: 2   },
-  { text: "b.design grad",          bg: "#FFB3C6", color: "#FF2D78", rot: -2  },
-  { text: "7 projects & counting",  bg: "#A8E6C3", color: "#1A1A1A", rot: 3   },
-  { text: "bold & captivating ✦",   bg: "#E0E0E0", color: "#FF2D78", rot: -3  },
-  { text: "let's collab!",          bg: "#fff",    color: "#FF2D78", rot: 1.5 },
+  { slug: "purdeys",       name: "Purdey's",        category: "D&AD Campaign",   color: "#F2C4A8", rot: -3,   mt:  0,  cover: "/projects/purdeys/hero.png"                },
+  { slug: "swiss-design",  name: "Swiss Design",    category: "Graphic Design",  color: "#D6D4CE", rot:  2,   mt:  48, cover: "/projects/swiss-design/hero.png"            },
+  { slug: "cashfree",      name: "Cashfree",        category: "Brand Design",    color: "#A8D5B5", rot: -2,   mt: -16, cover: "/projects/cashfree/gff/hero.jpg"            },
+  { slug: "magazine",      name: "Magazine",        category: "Editorial",       color: "#EDD853", rot:  3,   mt:  64, cover: "/projects/magazine/hero.png"                },
+  { slug: "janapada-kit",  name: "Janapada Kit",    category: "Cultural Design", color: "#F2C4A8", rot: -1.5, mt:  8,  cover: "/projects/janapada-kit/hero.png"            },
+  { slug: "animation",     name: "2D/3D Animation", category: "Motion",          color: "#D6D4CE", rot:  2.5, mt: -24, cover: "/projects/animation/hero.png"               },
+  { slug: "zines",         name: "Zines",           category: "Self-Published",  color: "#A8D5B5", rot: -2.5, mt:  40, cover: "/projects/zines/hero.png"                   },
 ];
 
 export default function Home() {
-  const [trail, setTrail] = useState<TrailItem[]>([]);
-  const lastSpawn = useRef(0);
-  const counter  = useRef(0);
+  const [trail, setTrail]   = useState<TrailItem[]>([]);
+  const lastSpawn            = useRef(0);
+  const counter              = useRef(0);
 
-  const handleHeroMove = useCallback((e: React.MouseEvent<HTMLElement>) => {
+  const handleMove = useCallback((e: React.MouseEvent<HTMLElement>) => {
     const now = Date.now();
-    if (now - lastSpawn.current < 120) return;   // max ~8 per second
+    if (now - lastSpawn.current < 110) return;
     lastSpawn.current = now;
-
     const rect = e.currentTarget.getBoundingClientRect();
-    const id = ++counter.current;
-    const item: TrailItem = {
+    const id   = ++counter.current;
+    setTrail(prev => [...prev, {
       id,
       x:    e.clientX - rect.left,
       y:    e.clientY - rect.top,
       rot:  Math.random() * 50 - 25,
-      size: Math.random() * 40 + 60,   // 60–100 px
+      size: Math.random() * 36 + 52,
       src:  TRAIL_IMGS[Math.floor(Math.random() * TRAIL_IMGS.length)],
-    };
-
-    setTrail(prev => [...prev, item]);
+    }]);
     setTimeout(() => setTrail(prev => prev.filter(s => s.id !== id)), 1100);
   }, []);
 
   return (
-    <main className="overflow-x-hidden">
+    <main className="overflow-x-hidden" onMouseMove={handleMove}>
 
-      {/* ── HERO — fully centred, sticker fan below the name ── */}
-      <section
-        className="relative min-h-screen flex flex-col items-center justify-center pt-20 pb-16 px-6 overflow-hidden cursor-none"
-        onMouseMove={handleHeroMove}
-      >
-
-        {/* ── Sticker cursor trail ── */}
+      {/* ── Sticker trail (whole page) ── */}
+      <div className="fixed inset-0 pointer-events-none" style={{ zIndex: 40 }}>
         <AnimatePresence>
           {trail.map(s => (
-            <motion.img
-              key={s.id}
-              src={s.src}
-              alt=""
-              className="absolute pointer-events-none select-none"
-              style={{ left: s.x - s.size / 2, top: s.y - s.size / 2, width: s.size, height: s.size, rotate: s.rot, zIndex: 30 }}
-              initial={{ scale: 0, opacity: 1, y: 0 }}
-              animate={{ scale: 1, opacity: 1, y: -24 }}
-              exit={{ scale: 0.6, opacity: 0, y: -64 }}
-              transition={{ scale: { type: "spring", stiffness: 500, damping: 22 }, y: { duration: 1, ease: "easeOut" }, opacity: { duration: 0.35, delay: 0.65 } }}
+            <motion.img key={s.id} src={s.src} alt=""
+              className="absolute select-none"
+              style={{ left: s.x - s.size / 2, top: s.y - s.size / 2, width: s.size, height: s.size, rotate: s.rot }}
+              initial={{ scale: 0, opacity: 1 }}
+              animate={{ scale: 1, opacity: 1, y: -18 }}
+              exit={{ opacity: 0, y: -56, scale: 0.6 }}
+              transition={{
+                scale:   { type: "spring", stiffness: 480, damping: 22 },
+                y:       { duration: 1.0, ease: "easeOut" },
+                opacity: { duration: 0.3, delay: 0.7 },
+              }}
             />
           ))}
         </AnimatePresence>
-
-        {/* Gold star doodles — hero */}
-        <GoldStars stars={[
-          { ch: "★", size: 28, left: "6%",  top: "12%", rot: 15,  op: 0.55, delay: 0   },
-          { ch: "✦", size: 16, left: "11%", top: "38%", rot: -8,  op: 0.40, delay: 0.5 },
-          { ch: "✶", size: 22, left: "4%",  top: "62%", rot: 30,  op: 0.50, delay: 1.1 },
-          { ch: "★", size: 14, left: "18%", top: "78%", rot: -20, op: 0.35, delay: 0.8 },
-          { ch: "✦", size: 32, left: "87%", top: "10%", rot: -12, op: 0.60, delay: 0.3 },
-          { ch: "★", size: 18, left: "92%", top: "35%", rot: 25,  op: 0.45, delay: 1.4 },
-          { ch: "✶", size: 26, left: "82%", top: "58%", rot: -5,  op: 0.55, delay: 0.7 },
-          { ch: "✦", size: 14, left: "76%", top: "80%", rot: 18,  op: 0.38, delay: 1.0 },
-          { ch: "★", size: 20, left: "50%", top: "8%",  rot: -15, op: 0.42, delay: 0.6 },
-        ]} />
-
-        {/* Tiny annotation above name */}
-        <motion.p
-          className="font-editorial italic text-lg text-[#1A1A1A]/35 mb-1 tracking-widest text-center"
-          style={{ rotate: -2 }}
-          initial={{ opacity: 0 }} animate={{ opacity: 1 }}
-          transition={{ delay: 0.5 }}
-        >
-          psst — hi, i&apos;m ↓
-        </motion.p>
-
-        {/* ARCHANA — centred Playfair Black with highlighter */}
-        <div className="relative inline-block">
-          <motion.h1
-            className="font-display font-black text-[#1A1A1A] leading-none relative z-10 text-center"
-            style={{ fontSize: "clamp(72px, 16vw, 220px)", rotate: -1.5 }}
-            initial={{ y: 70, opacity: 0 }} animate={{ y: 0, opacity: 1 }}
-            transition={{ duration: 0.85, ease: [0.22, 1, 0.36, 1], delay: 0.1 }}
-          >
-            Archana
-          </motion.h1>
-          {/* yellow highlighter */}
-          <motion.div
-            className="absolute bottom-3 left-0 h-6 w-full opacity-60 -z-10 rounded"
-            style={{ background: "#F5F250", rotate: -1 }}
-            initial={{ scaleX: 0, originX: 0 }} animate={{ scaleX: 1 }}
-            transition={{ delay: 0.7, duration: 0.5 }}
-          />
-        </div>
-
-        {/* KOWSHIK — pink italic, slight opposite tilt */}
-        <motion.h1
-          className="font-display font-black italic text-[#FF2D78] leading-none block text-center"
-          style={{ fontSize: "clamp(64px, 14vw, 200px)", rotate: 1 }}
-          initial={{ y: 70, opacity: 0 }} animate={{ y: 0, opacity: 1 }}
-          transition={{ duration: 0.85, ease: [0.22, 1, 0.36, 1], delay: 0.2 }}
-        >
-          Kowshik.
-        </motion.h1>
-
-        {/* Tagline — centred */}
-        <motion.div
-          className="flex flex-wrap items-baseline justify-center gap-x-3 gap-y-1 mt-2 md:mt-0"
-          initial={{ opacity: 0 }} animate={{ opacity: 1 }}
-          transition={{ delay: 0.85 }}
-        >
-          <span className="font-condensed text-2xl md:text-3xl text-[#1A1A1A] tracking-wide">VISUAL /</span>
-          <span className="font-display italic text-3xl md:text-4xl text-[#FF2D78]">graphic designer</span>
-          <span className="font-editorial italic text-xl text-[#1A1A1A]/40">&amp;</span>
-          <span className="font-condensed text-2xl md:text-3xl text-[#1A1A1A] tracking-wide">ILLUSTRATOR</span>
-          <span className="font-editorial italic text-lg text-[#1A1A1A]/35 tracking-widest">— Bangalore</span>
-        </motion.div>
-
-        {/* CTA buttons — centred */}
-        <motion.div
-          className="flex flex-wrap gap-4 mt-8 justify-center"
-          initial={{ opacity: 0, y: 16 }} animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 1.05 }}
-        >
-          <motion.div whileHover={{ scale: 1.06, rotate: -1 }}>
-            <Link href="/projects"
-              className="doodle-border inline-flex items-center gap-2 bg-[#1A1A1A] text-[#F5F0E8] font-handwriting text-xl px-7 py-3">
-              see my work →
-            </Link>
-          </motion.div>
-          <motion.div whileHover={{ scale: 1.06, rotate: 1 }}>
-            <Link href="/contact"
-              className="doodle-border-pink inline-flex items-center gap-2 text-[#FF2D78] font-handwriting text-xl px-7 py-3 bg-white">
-              say hello ♡
-            </Link>
-          </motion.div>
-        </motion.div>
-
-        {/* Scroll hint */}
-        <motion.p
-          className="font-handwriting text-[#1A1A1A]/30 text-base absolute bottom-6 left-1/2 -translate-x-1/2"
-          style={{ rotate: -1 }}
-          animate={{ y: [0, 6, 0] }}
-          transition={{ duration: 2, repeat: Infinity }}
-        >
-          scroll down ↓
-        </motion.p>
-      </section>
-
-      {/* ── HOT PINK MARQUEE ── */}
-      <div className="py-4 border-y border-[#1A1A1A]/15 overflow-hidden bg-[#FF2D78]">
-        <Marquee
-          items={["Graphic Design", "Illustration", "Visual Design", "Animation", "Branding", "Editorial"]}
-          className="[&_span]:text-white"
-        />
       </div>
 
-      {/* ── "HERE'S SOME OF MY WORK" PINBOARD ── */}
-      <section className="px-6 md:px-10 py-20 relative">
+      {/* ── HERO — name fills the screen ─────────────────────────────────────── */}
+      <section className="relative min-h-screen flex flex-col justify-between px-6 md:px-12 lg:px-16 pt-28 pb-10 cursor-none overflow-hidden">
 
-        {/* Gold star doodles — pinboard */}
-        <GoldStars stars={[
-          { ch: "★", size: 36, left: "2%",  top: "10%", rot: -20, op: 0.50, delay: 0   },
-          { ch: "✦", size: 20, left: "95%", top: "22%", rot: 12,  op: 0.45, delay: 0.4 },
-          { ch: "✶", size: 16, left: "90%", top: "65%", rot: -8,  op: 0.40, delay: 1.2 },
-          { ch: "★", size: 24, left: "5%",  top: "80%", rot: 30,  op: 0.55, delay: 0.9 },
-        ]} />
+        {/* Name — Awesome Serif, enormous */}
+        <div>
+          <motion.h1
+            className="font-hero italic text-[#111111] leading-[0.88]"
+            style={{ fontSize: "clamp(72px, 18vw, 260px)" }}
+            initial={{ opacity: 0, y: 40 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.9, ease: [0.22, 1, 0.36, 1] }}
+          >
+            Archana<br />
+            <span className="relative inline-block">
+              Kowshik
+              {/* yellow underline */}
+              <motion.span
+                className="absolute left-0 bottom-2 h-[0.12em] w-full block rounded-full"
+                style={{ background: "#EDD853" }}
+                initial={{ scaleX: 0, originX: 0 }}
+                animate={{ scaleX: 1 }}
+                transition={{ delay: 0.8, duration: 0.6, ease: "easeOut" }}
+              />
+            </span>
+            <span className="text-[#C85535]">.</span>
+          </motion.h1>
+        </div>
 
-        <Reveal>
-          <div className="relative inline-block mb-12">
-            <motion.p className="font-display italic text-4xl md:text-5xl text-[#1A1A1A] leading-tight" style={{ rotate: -1 }}>
-              here&apos;s some of{" "}
-              <span className="relative inline-block">
-                my work
-                <svg className="absolute -bottom-2 left-0 w-full" height="8" viewBox="0 0 100 8" preserveAspectRatio="none">
-                  <path d="M0 4 Q12 0 25 4 Q38 8 50 4 Q62 0 75 4 Q88 8 100 4" stroke="#FF2D78" strokeWidth="2.5" fill="none" strokeLinecap="round"/>
-                </svg>
-              </span>
-              {" "}✦
-            </motion.p>
-            <motion.p className="font-handwriting text-lg text-[#1A1A1A]/40 mt-2 ml-1" style={{ rotate: 1 }}>
-              (click to explore each one!)
-            </motion.p>
+        {/* Bottom row — role left, scroll right */}
+        <motion.div
+          className="flex items-end justify-between"
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ delay: 0.9 }}
+        >
+          <div>
+            <p className="font-sans text-sm text-[#999490] tracking-widest uppercase mb-1">
+              Visual Designer &amp; Illustrator
+            </p>
+            <p className="font-sans text-sm text-[#999490] tracking-widest uppercase">
+              Bangalore, India — open to freelance
+            </p>
           </div>
-        </Reveal>
+          <motion.p
+            className="font-display italic text-[#999490] text-base hidden md:block"
+            animate={{ y: [0, 6, 0] }}
+            transition={{ duration: 2.4, repeat: Infinity }}
+          >
+            scroll ↓
+          </motion.p>
+        </motion.div>
+      </section>
 
-        <div className="flex flex-wrap gap-10 md:gap-16 justify-start items-start">
+      {/* ── WORK — straight in, no header ────────────────────────────────────── */}
+      <section className="px-6 md:px-12 lg:px-16 pb-32">
+
+        {/* Minimal label */}
+        <motion.p
+          className="font-sans text-xs text-[#999490] tracking-[0.2em] uppercase mb-16"
+          initial={{ opacity: 0 }} whileInView={{ opacity: 1 }} viewport={{ once: true }}
+        >
+          Selected work
+        </motion.p>
+
+        {/* Polaroid scatter */}
+        <div className="flex flex-wrap gap-10 md:gap-14 items-start">
           {PROJECTS.map((p, i) => (
-            <div key={p.name} style={{ marginTop: p.mt }}>
-              <PolaroidCard p={p} i={i} />
-            </div>
+            <motion.div
+              key={p.slug}
+              style={{ marginTop: p.mt }}
+              initial={{ opacity: 0, y: 24 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true, margin: "-40px" }}
+              transition={{ delay: i * 0.06, duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
+            >
+              <Link href={`/projects/${p.slug}`}>
+                <motion.div
+                  className="flex flex-col items-center cursor-pointer"
+                  style={{ rotate: p.rot }}
+                  whileHover={{ rotate: 0, scale: 1.06, zIndex: 50 }}
+                  transition={{ type: "spring", stiffness: 260, damping: 20 }}
+                >
+                  {/* Pin */}
+                  <div className="w-3.5 h-3.5 rounded-full bg-[#C85535] -mb-1.5 z-10 shadow-sm" />
+                  {/* Polaroid */}
+                  <div className="polaroid" style={{ width: 195 }}>
+                    <div className="w-full h-44 overflow-hidden" style={{ backgroundColor: p.color }}>
+                      {/* eslint-disable-next-line @next/next/no-img-element */}
+                      <img src={p.cover} alt={p.name} className="w-full h-full object-cover" />
+                    </div>
+                    <p className="font-display italic text-[15px] text-center text-[#111] mt-3 leading-tight">{p.name}</p>
+                    <p className="font-sans text-[10px] text-center text-[#999490] mt-0.5 tracking-widest uppercase">{p.category}</p>
+                  </div>
+                </motion.div>
+              </Link>
+            </motion.div>
           ))}
         </div>
 
-        <Reveal>
-          <motion.div className="mt-12 inline-block" whileHover={{ x: 4 }}>
-            <Link href="/projects"
-              className="font-handwriting text-2xl text-[#FF2D78] underline decoration-wavy underline-offset-4">
+        {/* See all */}
+        <motion.div
+          className="mt-20"
+          initial={{ opacity: 0 }} whileInView={{ opacity: 1 }} viewport={{ once: true }}
+          transition={{ delay: 0.2 }}
+        >
+          <Link href="/projects">
+            <motion.span
+              className="font-display italic text-[#C85535] text-2xl inline-flex items-center gap-2"
+              whileHover={{ x: 6 }}
+              transition={{ type: "spring", stiffness: 400 }}
+            >
               see all projects →
-            </Link>
-          </motion.div>
-        </Reveal>
-
-        <div className="absolute bottom-8 right-10 font-handwriting text-xl text-[#1A1A1A]/20 pointer-events-none"
-          style={{ transform: "rotate(10deg)" }}>✂ so fun!</div>
+            </motion.span>
+          </Link>
+        </motion.div>
       </section>
 
-      {/* ── DARK MARQUEE ── */}
-      <div className="py-4 overflow-hidden bg-[#1A1A1A]">
-        <Marquee reverse
-          items={["Available for freelance", "Open to collab", "Let's make something bold", "PES University Bangalore"]}
-          className="[&_span]:text-[#F5F0E8]"
-        />
-      </div>
-
-      {/* ── ABOUT TEASER ── */}
-      <section className="bg-[#1A1A1A] px-6 md:px-10 py-24 relative overflow-hidden">
-        <div className="relative z-10 max-w-5xl mx-auto">
-          <Reveal>
-            <motion.h2
-              className="font-display font-black text-[#F5F0E8] text-4xl md:text-6xl mb-12 leading-none"
-              style={{ rotate: -0.5 }}
-            >
-              a little about<br />
-              <span className="italic text-[#FF2D78]">me.</span>
-            </motion.h2>
-          </Reveal>
-
-          <div className="grid md:grid-cols-2 gap-10 items-start">
-            <Reveal direction="left">
-              <ReceiptCard />
-            </Reveal>
-
-            <Reveal direction="right" delay={0.15}>
-              <div className="grid grid-cols-2 gap-4">
-                {POSTITS.map((note, i) => (
-                  <motion.div
-                    key={i}
-                    className="p-4 font-handwriting text-lg leading-snug shadow-md"
-                    style={{
-                      backgroundColor: note.bg,
-                      color: note.color,
-                      rotate: note.rot,
-                      boxShadow: "4px 4px 0 rgba(0,0,0,0.3)",
-                    }}
-                    initial={{ opacity: 0, scale: 0.8 }}
-                    whileInView={{ opacity: 1, scale: 1 }}
-                    viewport={{ once: true }}
-                    whileHover={{ scale: 1.07, rotate: 0, zIndex: 20 }}
-                    transition={{ delay: i * 0.08, type: "spring", stiffness: 280 }}
-                  >
-                    {note.text}
-                  </motion.div>
-                ))}
-              </div>
-            </Reveal>
-          </div>
-
-          <Reveal delay={0.3}>
-            <motion.div className="mt-12" whileHover={{ scale: 1.04, rotate: 1 }}>
-              <Link href="/about"
-                className="doodle-border inline-flex items-center gap-2 font-handwriting text-xl px-7 py-3 text-[#F5F0E8]"
-                style={{ border: "2.5px solid #fff", boxShadow: "3px 3px 0 #fff" }}>
-                read more about me ✦
-              </Link>
-            </motion.div>
-          </Reveal>
+      {/* ── ABOUT — one simple block ─────────────────────────────────────────── */}
+      <section className="px-6 md:px-12 lg:px-16 py-24 border-t border-[#111]/8">
+        <div className="max-w-2xl">
+          <motion.p
+            className="font-sans text-xs text-[#999490] tracking-[0.2em] uppercase mb-8"
+            initial={{ opacity: 0 }} whileInView={{ opacity: 1 }} viewport={{ once: true }}
+          >
+            About
+          </motion.p>
+          <motion.p
+            className="font-display italic text-[#111] leading-snug mb-6"
+            style={{ fontSize: "clamp(22px, 3vw, 36px)" }}
+            initial={{ opacity: 0, y: 16 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }}
+            transition={{ duration: 0.7 }}
+          >
+            I&apos;m Archana — a visual designer and illustrator based in Bangalore.
+            I love making things that feel bold, considered, and a little joyful.
+          </motion.p>
+          <motion.p
+            className="font-sans text-[#999490] text-sm leading-relaxed mb-8"
+            initial={{ opacity: 0 }} whileInView={{ opacity: 1 }} viewport={{ once: true }}
+            transition={{ delay: 0.2 }}
+          >
+            B.Design graduate from PES University · 2025 · Open to freelance &amp; full-time
+          </motion.p>
+          <motion.div whileHover={{ x: 4 }} transition={{ type: "spring", stiffness: 400 }}>
+            <Link href="/about"
+              className="font-sans text-xs tracking-widest uppercase text-[#C85535] inline-flex items-center gap-2">
+              More about me →
+            </Link>
+          </motion.div>
         </div>
       </section>
 
-      {/* ── SAY HELLO CTA ── */}
-      <section className="px-6 md:px-10 py-20 border-t-2 border-[#1A1A1A] relative overflow-hidden">
-        {/* Gold star doodles — CTA */}
-        <GoldStars stars={[
-          { ch: "★", size: 42, left: "3%",  top: "20%", rot: -10, op: 0.50, delay: 0   },
-          { ch: "✦", size: 22, left: "8%",  top: "70%", rot: 20,  op: 0.40, delay: 0.6 },
-          { ch: "✶", size: 30, left: "91%", top: "15%", rot: 35,  op: 0.55, delay: 0.3 },
-          { ch: "★", size: 18, left: "94%", top: "60%", rot: -25, op: 0.42, delay: 1.1 },
-          { ch: "✦", size: 14, left: "50%", top: "5%",  rot: 15,  op: 0.35, delay: 0.8 },
-        ]} />
-        <Reveal>
-          <div className="text-center">
-            <motion.h2
-              className="font-display font-black text-[#1A1A1A] leading-none mb-8 inline-block"
-              style={{ fontSize: "clamp(52px, 10vw, 140px)", rotate: -0.5 }}
-            >
-              Say hello<span className="text-[#FF2D78]">.</span>
-            </motion.h2>
-            <br />
-            <motion.div whileHover={{ scale: 1.06, rotate: 1 }}>
-              <Link href="/contact"
-                className="doodle-border inline-flex items-center gap-3 bg-[#FF2D78] text-white font-handwriting text-2xl px-10 py-4">
-                get in touch ♡
-              </Link>
-            </motion.div>
-            <p className="font-handwriting text-[#1A1A1A]/30 text-lg mt-5">
-              (i don&apos;t bite, i promise ✦)
-            </p>
+      {/* ── SAY HELLO ────────────────────────────────────────────────────────── */}
+      <section className="px-6 md:px-12 lg:px-16 py-24 border-t border-[#111]/8">
+        <motion.div
+          initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }} transition={{ duration: 0.7 }}
+        >
+          <h2
+            className="font-hero italic text-[#111] leading-none mb-8"
+            style={{ fontSize: "clamp(56px, 12vw, 160px)" }}
+          >
+            Say hello<span className="text-[#C85535]">.</span>
+          </h2>
+          <div className="flex flex-col sm:flex-row sm:items-center gap-4">
+            <Link href="/contact">
+              <motion.span
+                className="inline-flex items-center gap-2 bg-[#111] text-[#FAFAF8] font-sans text-xs tracking-[0.15em] uppercase px-8 py-4"
+                whileHover={{ scale: 1.03 }}
+              >
+                Get in touch ♡
+              </motion.span>
+            </Link>
+            <span className="font-sans text-[#999490] text-sm">archana3kowshik@gmail.com</span>
           </div>
-        </Reveal>
+        </motion.div>
       </section>
+
     </main>
   );
 }

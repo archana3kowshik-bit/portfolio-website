@@ -1,10 +1,19 @@
 import type { Metadata } from "next";
 import localFont from "next/font/local";
+import { Instrument_Serif } from "next/font/google";
 import "./globals.css";
 import Cursor from "@/components/Cursor";
 import Nav from "@/components/Nav";
 
-// Awesome Serif Italic — headers, subheaders, and highlight text only
+// Instrument Serif — new primary display font (editorial, warm, humanist)
+const instrumentSerif = Instrument_Serif({
+  weight: "400",
+  style: ["normal", "italic"],
+  subsets: ["latin"],
+  variable: "--font-instrument-serif",
+});
+
+// Awesome Serif Italic — kept for the hero name only (it's special)
 const awesomeSerif = localFont({
   src: [
     {
@@ -21,8 +30,6 @@ const awesomeSerif = localFont({
   variable: "--font-awesome-serif",
 });
 
-// Note: Helvetica Neue is a system font — no import needed
-
 export const metadata: Metadata = {
   title: "Archana Kowshik — Visual Designer & Illustrator",
   description:
@@ -37,9 +44,7 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en">
-      <body
-        className={`${awesomeSerif.variable} font-sans`}
-      >
+      <body className={`${awesomeSerif.variable} ${instrumentSerif.variable} font-sans`}>
         <Cursor />
         <Nav />
         {children}

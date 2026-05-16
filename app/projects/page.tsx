@@ -103,7 +103,7 @@ export default function Projects() {
           transition={{ duration: 0.7, ease: [0.22, 1, 0.36, 1], delay: 0.1 }}
         >
           My{" "}
-          <span className="text-[#FF2D78]">Projects.</span>
+          <span className="text-[#C85535]">Projects.</span>
         </motion.h1>
 
         <motion.div className="flex flex-wrap items-center gap-3 mt-4"
@@ -114,7 +114,7 @@ export default function Projects() {
           <a
             href="https://www.behance.net/archanakowshik"
             target="_blank" rel="noopener noreferrer"
-            className="font-sans text-xs tracking-widest uppercase text-[#FF2D78] border border-[#FF2D78] px-3 py-1 hover:bg-[#FF2D78] hover:text-white transition-colors"
+            className="font-sans text-xs tracking-widest uppercase text-[#C85535] border border-[#C85535] px-3 py-1 hover:bg-[#C85535] hover:text-white transition-colors"
           >
             Behance ↗
           </a>
@@ -131,8 +131,9 @@ export default function Projects() {
               onClick={() => setActiveTag(tag)}
               className="font-sans tracking-widest px-5 py-1.5 border border-[#1A1A1A] text-xs uppercase transition-colors"
               animate={{
-                backgroundColor: activeTag === tag ? "#1A1A1A" : "transparent",
+                backgroundColor: activeTag === tag ? "#C85535" : "transparent",
                 color: activeTag === tag ? "#fff" : "#1A1A1A",
+                borderColor: activeTag === tag ? "#C85535" : "#1A1A1A",
               }}
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.95 }}
@@ -182,7 +183,7 @@ export default function Projects() {
             see the full archive →
           </span>
           <span
-            className="font-display italic leading-none text-[#1A1A1A] group-hover:text-[#FF2D78] transition-colors duration-200"
+            className="font-display italic leading-none text-[#1A1A1A] group-hover:text-[#C85535] transition-colors duration-200"
             style={{ fontSize: "clamp(40px, 7vw, 96px)" }}
           >
             Behance

@@ -8,35 +8,40 @@ const config: Config = {
   theme: {
     extend: {
       colors: {
-        cream: "#FFFFFF",
-        pink: { hot: "#FF2D78", light: "#FFD6E5" },
-        ink: "#1A1A1A",
+        linen:  "#FAFAF8",
+        ink:    "#111111",
+        terra:  "#C85535",
+        yellow: "#EDD853",
+        muted:  "#999490",
+        cream:  "#FAFAF8",
+        pink: { hot: "#C85535", light: "#F2C4A8" },
       },
       fontFamily: {
-        // Awesome Serif Italic — headers, subheaders, and highlight text only
-        display:     ["var(--font-awesome-serif)", "Georgia", "serif"],
-
-        // Helvetica Neue — everything else: body, labels, captions, UI text
+        // Instrument Serif — section headings, labels
+        display:     ["var(--font-instrument-serif)", "Georgia", "serif"],
+        // Awesome Serif Italic — hero name only
+        hero:        ["var(--font-awesome-serif)", "Georgia", "serif"],
+        // Helvetica Neue — everything else
+        sans:        ['"Helvetica Neue"', "Helvetica", "Arial", "sans-serif"],
         editorial:   ['"Helvetica Neue"', "Helvetica", "Arial", "sans-serif"],
         condensed:   ['"Helvetica Neue"', "Helvetica", "Arial", "sans-serif"],
         handwriting: ['"Helvetica Neue"', "Helvetica", "Arial", "sans-serif"],
-        sans:        ['"Helvetica Neue"', "Helvetica", "Arial", "sans-serif"],
       },
       letterSpacing: {
-        tighter:  "-0.05em",
-        tight:    "-0.035em",
-        normal:   "-0.02em",
-        wide:     "0.005em",
-        wider:    "0.015em",
-        widest:   "0.04em",
+        tighter: "-0.05em",
+        tight:   "-0.03em",
+        normal:  "-0.02em",
+        wide:    "0.005em",
+        wider:   "0.02em",
+        widest:  "0.06em",
       },
       animation: {
-        marquee:          "marquee 18s linear infinite",
-        "marquee-reverse":"marquee-reverse 18s linear infinite",
+        marquee:           "marquee 28s linear infinite",
+        "marquee-reverse": "marquee-reverse 28s linear infinite",
       },
       keyframes: {
-        marquee:          { "0%": { transform: "translateX(0%)" },    "100%": { transform: "translateX(-50%)" } },
-        "marquee-reverse":{ "0%": { transform: "translateX(-50%)" },  "100%": { transform: "translateX(0%)" }  },
+        marquee:           { "0%": { transform: "translateX(0%)" },   "100%": { transform: "translateX(-50%)" } },
+        "marquee-reverse": { "0%": { transform: "translateX(-50%)" }, "100%": { transform: "translateX(0%)" }  },
       },
     },
   },
