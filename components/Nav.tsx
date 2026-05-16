@@ -2,8 +2,8 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { motion, AnimatePresence } from "framer-motion";
 import { useState } from "react";
+import { motion, AnimatePresence } from "framer-motion";
 
 const links = [
   { href: "/",         label: "Home"     },
@@ -17,12 +17,12 @@ export default function Nav() {
   const [open, setOpen] = useState(false);
 
   return (
-    <header className="fixed top-0 left-0 right-0 z-50">
-      <nav className="flex items-center justify-between px-6 md:px-12 py-5">
+    <header className="fixed top-0 left-0 right-0 z-50 bg-white border-b border-[#111]">
+      <nav className="flex items-center justify-between px-6 md:px-12 h-[72px]">
 
-        {/* Logo */}
+        {/* Logo — editorial masthead style */}
         <Link href="/"
-          className="font-display text-xl text-[#111] leading-none tracking-wide">
+          className="font-display font-black italic text-[#111] text-lg leading-none tracking-tight">
           AK<span className="text-[#1B3A6B]">.</span>
         </Link>
 
@@ -30,30 +30,29 @@ export default function Nav() {
         <ul className="hidden md:flex items-center gap-8">
           {links.map(({ href, label }) => (
             <li key={href}>
-              <Link href={href}>
-                <span className={`font-body text-xs tracking-[0.15em] uppercase transition-colors ${
-                  pathname === href ? "text-[#1B3A6B]" : "text-[#111] hover:text-[#1B3A6B]"
+              <Link href={href}
+                className={`font-body text-[11px] tracking-[0.18em] uppercase transition-colors ${
+                  pathname === href ? "text-[#1B3A6B]" : "text-[#888] hover:text-[#111]"
                 }`}>
-                  {label}
-                </span>
+                {label}
               </Link>
             </li>
           ))}
         </ul>
 
-        {/* Available */}
+        {/* Available badge */}
         <a href="/contact"
-          className="hidden md:flex items-center gap-2 font-body text-xs tracking-[0.12em] uppercase text-[#888] hover:text-[#1B3A6B] transition-colors">
+          className="hidden md:flex items-center gap-2 font-body text-[11px] tracking-[0.15em] uppercase text-[#888] hover:text-[#1B3A6B] transition-colors">
           <span className="w-1.5 h-1.5 rounded-full bg-green-400 animate-pulse" />
           Available
         </a>
 
-        {/* Hamburger */}
+        {/* Mobile hamburger */}
         <button className="md:hidden flex flex-col gap-[5px] p-2"
           onClick={() => setOpen(!open)} aria-label="Menu">
           {[
-            { rotate: open ? 45  : 0, y: open ?  7 : 0 },
-            { opacity: open ? 0  : 1 },
+            { rotate: open ? 45 : 0,  y: open ?  7 : 0 },
+            { opacity: open ? 0 : 1 },
             { rotate: open ? -45 : 0, y: open ? -7 : 0 },
           ].map((anim, i) => (
             <motion.span key={i} className="block w-5 h-[1.5px] bg-[#111]" animate={anim} />
@@ -64,7 +63,7 @@ export default function Nav() {
       <AnimatePresence>
         {open && (
           <motion.div
-            className="md:hidden bg-white border-t border-[#eee]"
+            className="md:hidden bg-white border-t border-[#111]"
             initial={{ height: 0, opacity: 0 }}
             animate={{ height: "auto", opacity: 1 }}
             exit={{ height: 0, opacity: 0 }}
@@ -74,9 +73,9 @@ export default function Nav() {
               {links.map(({ href, label }) => (
                 <li key={href}>
                   <Link href={href}
-                    className="font-display text-4xl text-[#111] tracking-wide"
+                    className="font-display font-black italic text-4xl text-[#111] hover:text-[#1B3A6B] transition-colors"
                     onClick={() => setOpen(false)}>
-                    {label.toUpperCase()}
+                    {label}
                   </Link>
                 </li>
               ))}
