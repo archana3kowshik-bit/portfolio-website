@@ -35,7 +35,7 @@ export interface StickerData {
 // ─── Helpers ──────────────────────────────────────────────────────────────────
 function fontClass(f?: StickerFont) {
   if (f === "serif")     return "font-display italic";
-  if (f === "hand")      return "font-handwriting";
+  if (f === "hand")      return "font-display italic";
   if (f === "condensed") return "font-condensed tracking-widest";
   return "font-sans font-bold uppercase tracking-wide";
 }

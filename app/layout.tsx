@@ -1,11 +1,10 @@
 import type { Metadata } from "next";
 import localFont from "next/font/local";
-import { Caveat } from "next/font/google";
 import "./globals.css";
 import Cursor from "@/components/Cursor";
 import Nav from "@/components/Nav";
 
-// 1. Awesome Serif Italic — the real deal, two optical sizes
+// Awesome Serif Italic — headers, subheaders, and highlight text only
 const awesomeSerif = localFont({
   src: [
     {
@@ -22,14 +21,7 @@ const awesomeSerif = localFont({
   variable: "--font-awesome-serif",
 });
 
-// 2. Caveat — handwriting for scrapbook annotations + sticky notes (unchanged)
-const caveat = Caveat({
-  subsets: ["latin"],
-  variable: "--font-caveat",
-  weight: ["400", "600", "700"],
-});
-
-// Note: Helvetica Neue is loaded as a system font — no import needed
+// Note: Helvetica Neue is a system font — no import needed
 
 export const metadata: Metadata = {
   title: "Archana Kowshik — Visual Designer & Illustrator",
@@ -46,7 +38,7 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body
-        className={`${awesomeSerif.variable} ${caveat.variable} font-display`}
+        className={`${awesomeSerif.variable} font-sans`}
       >
         <Cursor />
         <Nav />

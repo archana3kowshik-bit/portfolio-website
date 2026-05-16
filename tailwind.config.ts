@@ -13,17 +13,14 @@ const config: Config = {
         ink: "#1A1A1A",
       },
       fontFamily: {
-        // Awesome Serif Italic — the actual font, Tall (700) for big headings, Regular (400) for annotations
-        display:    ["var(--font-awesome-serif)", "Georgia", "serif"],
-        editorial:  ["var(--font-awesome-serif)", "Georgia", "serif"],
+        // Awesome Serif Italic — headers, subheaders, and highlight text only
+        display:     ["var(--font-awesome-serif)", "Georgia", "serif"],
 
-        // Helvetica Neue — clean system sans for ALL subheadings + labels
-        // (system font — pre-installed on Mac, falls back gracefully elsewhere)
-        condensed:  ['"Helvetica Neue"', "Helvetica", "Arial", "sans-serif"],
-        sans:       ['"Helvetica Neue"', "Helvetica", "Arial", "sans-serif"],
-
-        // Caveat — handwriting, scrapbook annotations (unchanged)
-        handwriting: ["var(--font-caveat)", "cursive"],
+        // Helvetica Neue — everything else: body, labels, captions, UI text
+        editorial:   ['"Helvetica Neue"', "Helvetica", "Arial", "sans-serif"],
+        condensed:   ['"Helvetica Neue"', "Helvetica", "Arial", "sans-serif"],
+        handwriting: ['"Helvetica Neue"', "Helvetica", "Arial", "sans-serif"],
+        sans:        ['"Helvetica Neue"', "Helvetica", "Arial", "sans-serif"],
       },
       letterSpacing: {
         tighter:  "-0.05em",

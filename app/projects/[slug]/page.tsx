@@ -374,7 +374,7 @@ export default function ProjectPage() {
         />
 
         <Reveal>
-          <p className="font-handwriting text-4xl md:text-5xl text-[#1A1A1A] mb-12">the work</p>
+          <p className="font-display italic text-4xl md:text-5xl text-[#1A1A1A] mb-12">the work</p>
         </Reveal>
 
         {project.campaigns ? (

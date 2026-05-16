@@ -247,7 +247,7 @@ export default function Home() {
 
         <Reveal>
           <div className="relative inline-block mb-12">
-            <motion.p className="font-handwriting text-4xl md:text-5xl text-[#1A1A1A] leading-tight" style={{ rotate: -1 }}>
+            <motion.p className="font-display italic text-4xl md:text-5xl text-[#1A1A1A] leading-tight" style={{ rotate: -1 }}>
               here&apos;s some of{" "}
               <span className="relative inline-block">
                 my work
