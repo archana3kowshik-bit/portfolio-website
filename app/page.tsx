@@ -1,12 +1,27 @@
 "use client";
 
-import { motion } from "framer-motion";
+import { motion, AnimatePresence } from "framer-motion";
+import { useState, useRef, useCallback } from "react";
 import Link from "next/link";
 import Marquee from "@/components/Marquee";
 import Reveal from "@/components/Reveal";
 import { StickerFan } from "@/components/Sticker";
 import type { StickerData } from "@/components/Sticker";
 import GoldStars from "@/components/GoldStars";
+
+// ─── Cursor trail stickers ────────────────────────────────────────────────────
+const TRAIL_IMGS = Array.from({ length: 15 }, (_, i) =>
+  `/stickers/sticker_${String(i + 1).padStart(2, "0")}.png`
+);
+
+interface TrailItem {
+  id: number;
+  x: number;
+  y: number;
+  rot: number;
+  size: number;
+  src: string;
+}
 
 // ─── Palette: hot pink · light pink · mint green · beige · grey ──────────────
 const STICKERS: StickerData[] = [
@@ -111,11 +126,55 @@ const POSTITS = [
 ];
 
 export default function Home() {
+  const [trail, setTrail] = useState<TrailItem[]>([]);
+  const lastSpawn = useRef(0);
+  const counter  = useRef(0);
+
+  const handleHeroMove = useCallback((e: React.MouseEvent<HTMLElement>) => {
+    const now = Date.now();
+    if (now - lastSpawn.current < 120) return;   // max ~8 per second
+    lastSpawn.current = now;
+
+    const rect = e.currentTarget.getBoundingClientRect();
+    const id = ++counter.current;
+    const item: TrailItem = {
+      id,
+      x:    e.clientX - rect.left,
+      y:    e.clientY - rect.top,
+      rot:  Math.random() * 50 - 25,
+      size: Math.random() * 40 + 60,   // 60–100 px
+      src:  TRAIL_IMGS[Math.floor(Math.random() * TRAIL_IMGS.length)],
+    };
+
+    setTrail(prev => [...prev, item]);
+    setTimeout(() => setTrail(prev => prev.filter(s => s.id !== id)), 1100);
+  }, []);
+
   return (
     <main className="overflow-x-hidden">
 
       {/* ── HERO — fully centred, sticker fan below the name ── */}
-      <section className="relative min-h-screen flex flex-col items-center justify-center pt-20 pb-16 px-6 overflow-hidden">
+      <section
+        className="relative min-h-screen flex flex-col items-center justify-center pt-20 pb-16 px-6 overflow-hidden cursor-none"
+        onMouseMove={handleHeroMove}
+      >
+
+        {/* ── Sticker cursor trail ── */}
+        <AnimatePresence>
+          {trail.map(s => (
+            <motion.img
+              key={s.id}
+              src={s.src}
+              alt=""
+              className="absolute pointer-events-none select-none"
+              style={{ left: s.x - s.size / 2, top: s.y - s.size / 2, width: s.size, height: s.size, rotate: s.rot, zIndex: 30 }}
+              initial={{ scale: 0, opacity: 1, y: 0 }}
+              animate={{ scale: 1, opacity: 1, y: -24 }}
+              exit={{ scale: 0.6, opacity: 0, y: -64 }}
+              transition={{ scale: { type: "spring", stiffness: 500, damping: 22 }, y: { duration: 1, ease: "easeOut" }, opacity: { duration: 0.35, delay: 0.65 } }}
+            />
+          ))}
+        </AnimatePresence>
 
         {/* Subtle bg glow */}
         <div className="absolute inset-0 pointer-events-none">
